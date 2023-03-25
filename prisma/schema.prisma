@@ -14,6 +14,7 @@ model User {
   id         String      @id @default(uuid())
   email      String      @unique
   password   String
+  avatarUrl  String?     @map("avatar_url")
   companyId  String?     @map("company_id")
   company    Company?    @relation(fields: [companyId], references: [id])
   interviews Interview[]
@@ -24,6 +25,7 @@ model User {
 model Company {
   id         String      @id @default(uuid())
   name       String
+  avatarUrl  String?     @map("avatar_url")
   createdAt  DateTime    @default(now()) @map("created_at")
   updatedAt  DateTime    @updatedAt @map("updated_at")
   members    User[]
