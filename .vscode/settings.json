@@ -1,3 +1,7 @@
 {
-  "conventionalCommits.scopes": ["prisma", "graphql"]
+  "conventionalCommits.scopes": [
+    "prisma",
+    "graphql",
+    "models"
+  ]
 }

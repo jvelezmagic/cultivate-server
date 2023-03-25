@@ -1,13 +1,20 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
 import { PrismaModule } from 'nestjs-prisma';
+
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+
+import { CompanyModule } from './company/company.module';
+import { ConversationModule } from './conversation/conversation.module';
+import { InterviewModule } from './interview/interview.module';
+import { MessageModule } from './message/message.module';
+import { QuestionModule } from './question/question.module';
+import { UsersModule } from './user/user.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -30,6 +37,11 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       autoSchemaFile: 'schema.gql',
     }),
     UsersModule,
+    CompanyModule,
+    QuestionModule,
+    InterviewModule,
+    ConversationModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
