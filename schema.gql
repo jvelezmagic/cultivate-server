@@ -2,12 +2,75 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Interview {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  candidate: User!
+  company: Company!
+  conversations: [Conversation!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Question {
+  id: ID!
+  title: String!
+  goals: [String!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  company: Company!
+  conversations: [Conversation!]!
+}
+
 type User {
   id: ID!
   email: String!
-  password: String!
+  company: Company
+  interviews: [Interview!]!
+}
+
+type Company {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  members: [User!]!
+  questions: [Question!]!
+  interviews: [Interview!]!
+}
+
+type Message {
+  id: ID!
+  role: MessageRole!
+  content: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  conversation: Conversation!
+}
+
+enum MessageRole {
+  CANDIDATE
+  COMPANY
+}
+
+type Conversation {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  messages: [Message!]!
+  question: Question!
+  interview: Interview!
 }
 
 type Query {
   users: [User!]!
+  companies: [Company!]!
+  questions: [Question!]!
+  interviews: [Interview!]!
+  conversations: [Conversation!]!
+  messages: [Message!]!
 }
