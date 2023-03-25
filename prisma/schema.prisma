@@ -11,9 +11,88 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  password String
+  id         String      @id @default(uuid())
+  email      String      @unique
+  password   String
+  companyId  String?     @map("company_id")
+  company    Company?    @relation(fields: [companyId], references: [id])
+  interviews Interview[]
 
   @@map("users")
+}
+
+model Company {
+  id         String      @id @default(uuid())
+  name       String
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+  users      User[]
+  questions  Question[]
+  interviews Interview[]
+
+  @@map("companies")
+}
+
+model Question {
+  id            String         @id @default(uuid())
+  companyId     String         @map("company_id")
+  title         String
+  goals         String[]
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  company       Company        @relation(fields: [companyId], references: [id])
+  conversations Conversation[]
+
+  @@index([companyId])
+  @@map("questions")
+}
+
+model Interview {
+  id            String         @id @default(uuid())
+  candidateId   String         @map("candidate_id")
+  companyId     String         @map("company_id")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  user          User           @relation(fields: [candidateId], references: [id])
+  company       Company        @relation(fields: [companyId], references: [id])
+  conversations Conversation[]
+
+  @@index([candidateId, companyId])
+  @@index([companyId])
+  @@index([candidateId])
+  @@map("interviews")
+}
+
+model Conversation {
+  id          String    @id @default(uuid())
+  interviewId String    @map("interview_id")
+  questionId  String    @map("question_id")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  interview   Interview @relation(fields: [interviewId], references: [id])
+  question    Question  @relation(fields: [questionId], references: [id])
+  messages    Message[]
+
+  @@index([interviewId, questionId])
+  @@index([interviewId])
+  @@index([questionId])
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String       @map("conversation_id")
+  role           MessageRole
+  content        String
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+
+  @@index([conversationId])
+  @@map("messages")
+}
+
+enum MessageRole {
+  CANDIDATE
+  COMPANY
 }
