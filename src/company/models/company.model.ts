@@ -9,6 +9,9 @@ export class Company implements Prisma.Company {
   @Field(() => String)
   name: string;
 
+  @Field(() => String, { nullable: true })
+  avatarUrl: string | null;
+
   @Field(() => Date)
   createdAt: Date;
 

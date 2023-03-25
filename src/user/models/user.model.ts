@@ -8,6 +8,9 @@ export class User {
   @Field(() => String)
   email: string;
 
+  @Field(() => String, { nullable: true })
+  avatarUrl: string | null;
+
   @HideField()
   password: string;
 }

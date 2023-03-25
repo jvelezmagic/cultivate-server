@@ -29,6 +29,7 @@ type Question {
 type User {
   id: ID!
   email: String!
+  avatarUrl: String
   company: Company
   interviews: [Interview!]!
 }
@@ -36,6 +37,7 @@ type User {
 type Company {
   id: ID!
   name: String!
+  avatarUrl: String
   createdAt: DateTime!
   updatedAt: DateTime!
   members: [User!]!
