@@ -50,8 +50,348 @@ type Question {
   createdAt: DateTime!
   updatedAt: DateTime!
   company: Company!
-  conversations: [Conversation!]
+  conversations(where: ConversationWhereInput, orderBy: [ConversationOrderByWithRelationInput!], cursor: ConversationWhereUniqueInput, take: Int, skip: Int, distinct: [ConversationScalarFieldEnum!]): [Conversation!]
   _count: QuestionCount!
+}
+
+input ConversationWhereInput {
+  AND: [ConversationWhereInput!]
+  OR: [ConversationWhereInput!]
+  NOT: [ConversationWhereInput!]
+  id: StringFilter
+  interviewId: StringFilter
+  questionId: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  interview: InterviewRelationFilter
+  question: QuestionRelationFilter
+  messages: MessageListRelationFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input InterviewRelationFilter {
+  is: InterviewWhereInput
+  isNot: InterviewWhereInput
+}
+
+input InterviewWhereInput {
+  AND: [InterviewWhereInput!]
+  OR: [InterviewWhereInput!]
+  NOT: [InterviewWhereInput!]
+  id: StringFilter
+  candidateId: StringFilter
+  companyId: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  candidate: UserRelationFilter
+  company: CompanyRelationFilter
+  conversations: ConversationListRelationFilter
+}
+
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: StringFilter
+  email: StringFilter
+  password: StringFilter
+  avatarUrl: StringNullableFilter
+  companyId: StringNullableFilter
+  company: CompanyRelationFilter
+  interviews: InterviewListRelationFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input CompanyRelationFilter {
+  is: CompanyWhereInput
+  isNot: CompanyWhereInput
+}
+
+input CompanyWhereInput {
+  AND: [CompanyWhereInput!]
+  OR: [CompanyWhereInput!]
+  NOT: [CompanyWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  avatarUrl: StringNullableFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  members: UserListRelationFilter
+  questions: QuestionListRelationFilter
+  interviews: InterviewListRelationFilter
+}
+
+input UserListRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
+input QuestionListRelationFilter {
+  every: QuestionWhereInput
+  some: QuestionWhereInput
+  none: QuestionWhereInput
+}
+
+input QuestionWhereInput {
+  AND: [QuestionWhereInput!]
+  OR: [QuestionWhereInput!]
+  NOT: [QuestionWhereInput!]
+  id: StringFilter
+  companyId: StringFilter
+  title: StringFilter
+  goals: StringNullableListFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  company: CompanyRelationFilter
+  conversations: ConversationListRelationFilter
+}
+
+input StringNullableListFilter {
+  equals: [String!]
+  has: String
+  hasEvery: [String!]
+  hasSome: [String!]
+  isEmpty: Boolean
+}
+
+input ConversationListRelationFilter {
+  every: ConversationWhereInput
+  some: ConversationWhereInput
+  none: ConversationWhereInput
+}
+
+input InterviewListRelationFilter {
+  every: InterviewWhereInput
+  some: InterviewWhereInput
+  none: InterviewWhereInput
+}
+
+input QuestionRelationFilter {
+  is: QuestionWhereInput
+  isNot: QuestionWhereInput
+}
+
+input MessageListRelationFilter {
+  every: MessageWhereInput
+  some: MessageWhereInput
+  none: MessageWhereInput
+}
+
+input MessageWhereInput {
+  AND: [MessageWhereInput!]
+  OR: [MessageWhereInput!]
+  NOT: [MessageWhereInput!]
+  id: StringFilter
+  conversationId: StringFilter
+  role: EnumMessageRoleFilter
+  content: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  conversation: ConversationRelationFilter
+}
+
+input EnumMessageRoleFilter {
+  equals: MessageRole
+  in: [MessageRole!]
+  notIn: [MessageRole!]
+  not: NestedEnumMessageRoleFilter
+}
+
+enum MessageRole {
+  CANDIDATE
+  COMPANY
+}
+
+input NestedEnumMessageRoleFilter {
+  equals: MessageRole
+  in: [MessageRole!]
+  notIn: [MessageRole!]
+  not: NestedEnumMessageRoleFilter
+}
+
+input ConversationRelationFilter {
+  is: ConversationWhereInput
+  isNot: ConversationWhereInput
+}
+
+input ConversationOrderByWithRelationInput {
+  id: SortOrder
+  interviewId: SortOrder
+  questionId: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  interview: InterviewOrderByWithRelationInput
+  question: QuestionOrderByWithRelationInput
+  messages: MessageOrderByRelationAggregateInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input InterviewOrderByWithRelationInput {
+  id: SortOrder
+  candidateId: SortOrder
+  companyId: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  candidate: UserOrderByWithRelationInput
+  company: CompanyOrderByWithRelationInput
+  conversations: ConversationOrderByRelationAggregateInput
+}
+
+input UserOrderByWithRelationInput {
+  id: SortOrder
+  email: SortOrder
+  password: SortOrder
+  avatarUrl: SortOrder
+  companyId: SortOrder
+  company: CompanyOrderByWithRelationInput
+  interviews: InterviewOrderByRelationAggregateInput
+}
+
+input CompanyOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  avatarUrl: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  members: UserOrderByRelationAggregateInput
+  questions: QuestionOrderByRelationAggregateInput
+  interviews: InterviewOrderByRelationAggregateInput
+}
+
+input UserOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input QuestionOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input InterviewOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ConversationOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input QuestionOrderByWithRelationInput {
+  id: SortOrder
+  companyId: SortOrder
+  title: SortOrder
+  goals: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  company: CompanyOrderByWithRelationInput
+  conversations: ConversationOrderByRelationAggregateInput
+}
+
+input MessageOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ConversationWhereUniqueInput {
+  id: String
+}
+
+enum ConversationScalarFieldEnum {
+  id
+  interviewId
+  questionId
+  createdAt
+  updatedAt
 }
 
 type Message {
@@ -62,11 +402,6 @@ type Message {
   createdAt: DateTime!
   updatedAt: DateTime!
   conversation: Conversation!
-}
-
-enum MessageRole {
-  CANDIDATE
-  COMPANY
 }
 
 type ConversationCount {
@@ -81,8 +416,31 @@ type Conversation {
   updatedAt: DateTime!
   interview: Interview!
   question: Question!
-  messages: [Message!]
+  messages(where: MessageWhereInput, orderBy: [MessageOrderByWithRelationInput!], cursor: MessageWhereUniqueInput, take: Int, skip: Int, distinct: [MessageScalarFieldEnum!]): [Message!]
   _count: ConversationCount!
+}
+
+input MessageOrderByWithRelationInput {
+  id: SortOrder
+  conversationId: SortOrder
+  role: SortOrder
+  content: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  conversation: ConversationOrderByWithRelationInput
+}
+
+input MessageWhereUniqueInput {
+  id: String
+}
+
+enum MessageScalarFieldEnum {
+  id
+  conversationId
+  role
+  content
+  createdAt
+  updatedAt
 }
 
 type InterviewCount {
@@ -97,7 +455,7 @@ type Interview {
   updatedAt: DateTime!
   candidate: User!
   company: Company!
-  conversations: [Conversation!]
+  conversations(where: ConversationWhereInput, orderBy: [ConversationOrderByWithRelationInput!], cursor: ConversationWhereUniqueInput, take: Int, skip: Int, distinct: [ConversationScalarFieldEnum!]): [Conversation!]
   _count: InterviewCount!
 }
 
@@ -112,8 +470,20 @@ type User {
   avatarUrl: String
   companyId: String
   company: Company
-  interviews: [Interview!]
+  interviews(where: InterviewWhereInput, orderBy: [InterviewOrderByWithRelationInput!], cursor: InterviewWhereUniqueInput, take: Int, skip: Int, distinct: [InterviewScalarFieldEnum!]): [Interview!]
   _count: UserCount!
+}
+
+input InterviewWhereUniqueInput {
+  id: String
+}
+
+enum InterviewScalarFieldEnum {
+  id
+  candidateId
+  companyId
+  createdAt
+  updatedAt
 }
 
 type Company {
@@ -123,9 +493,22 @@ type Company {
   createdAt: DateTime!
   updatedAt: DateTime!
   members: [User!]
-  questions: [Question!]
-  interviews: [Interview!]
+  questions(where: QuestionWhereInput, orderBy: [QuestionOrderByWithRelationInput!], cursor: QuestionWhereUniqueInput, take: Int, skip: Int, distinct: [QuestionScalarFieldEnum!]): [Question!]
+  interviews(where: InterviewWhereInput, orderBy: [InterviewOrderByWithRelationInput!], cursor: InterviewWhereUniqueInput, take: Int, skip: Int, distinct: [InterviewScalarFieldEnum!]): [Interview!]
   _count: CompanyCount!
+}
+
+input QuestionWhereUniqueInput {
+  id: String
+}
+
+enum QuestionScalarFieldEnum {
+  id
+  companyId
+  title
+  goals
+  createdAt
+  updatedAt
 }
 
 type InterviewCountAggregate {
@@ -258,10 +641,1083 @@ type MessageMaxAggregate {
 }
 
 type Query {
-  users: [User!]!
-  companies: [Company!]!
-  questions: [Question!]!
-  interviews: [Interview!]!
-  conversations: [Conversation!]!
-  messages: [Message!]!
+  users(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
+  user(where: UserWhereUniqueInput!): User
+  companies(where: CompanyWhereInput, orderBy: [CompanyOrderByWithRelationInput!], cursor: CompanyWhereUniqueInput, take: Int, skip: Int, distinct: [CompanyScalarFieldEnum!]): [Company!]!
+  company(where: CompanyWhereUniqueInput!): Company
+  questions(where: QuestionWhereInput, orderBy: [QuestionOrderByWithRelationInput!], cursor: QuestionWhereUniqueInput, take: Int, skip: Int, distinct: [QuestionScalarFieldEnum!]): [Question!]!
+  question(where: QuestionWhereUniqueInput!): Question
+  interviews(where: InterviewWhereInput, orderBy: [InterviewOrderByWithRelationInput!], cursor: InterviewWhereUniqueInput, take: Int, skip: Int, distinct: [InterviewScalarFieldEnum!]): [Interview!]!
+  interview(where: InterviewWhereUniqueInput!): Interview!
+  conversations(where: ConversationWhereInput, orderBy: [ConversationOrderByWithRelationInput!], cursor: ConversationWhereUniqueInput, take: Int, skip: Int, distinct: [ConversationScalarFieldEnum!]): [Conversation!]!
+  conversation(where: ConversationWhereUniqueInput!): Conversation
+  messages(where: MessageWhereInput, orderBy: [MessageOrderByWithRelationInput!], cursor: MessageWhereUniqueInput, take: Int, skip: Int, distinct: [MessageScalarFieldEnum!]): [Message!]!
+  message(where: MessageWhereUniqueInput!): Message
+}
+
+input UserWhereUniqueInput {
+  id: String
+  email: String
+}
+
+enum UserScalarFieldEnum {
+  id
+  email
+  password
+  avatarUrl
+  companyId
+}
+
+input CompanyWhereUniqueInput {
+  id: String
+}
+
+enum CompanyScalarFieldEnum {
+  id
+  name
+  avatarUrl
+  createdAt
+  updatedAt
+}
+
+type Mutation {
+  createUser(data: UserCreateInput!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User!
+  createCompany(data: CompanyCreateInput!): Company!
+  updateCompany(data: CompanyUpdateInput!, where: CompanyWhereUniqueInput!): Company!
+  deleteCompany(where: CompanyWhereUniqueInput!): Company!
+  createQuestion(data: QuestionCreateInput!): Question!
+  updateQuestion(data: QuestionUpdateInput!, where: QuestionWhereUniqueInput!): Question!
+  deleteQuestion(where: QuestionWhereUniqueInput!): Question!
+  createInterview(data: InterviewCreateInput!): Interview!
+  updateInterview(data: InterviewUpdateInput!, where: InterviewWhereUniqueInput!): Interview!
+  deleteInterview(where: InterviewWhereUniqueInput!): Interview
+  createConversation(data: ConversationCreateInput!): Conversation!
+  updateConversation(data: ConversationUpdateInput!, where: ConversationWhereUniqueInput!): Conversation!
+  deleteConversation(where: ConversationWhereUniqueInput!): Conversation!
+  createMessage(data: MessageCreateInput!): Message!
+  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message!
+  deleteMessage(where: MessageWhereUniqueInput!): Message!
+}
+
+input UserCreateInput {
+  id: String
+  email: String!
+  password: String!
+  avatarUrl: String
+  company: CompanyCreateNestedOneWithoutMembersInput
+  interviews: InterviewCreateNestedManyWithoutCandidateInput
+}
+
+input CompanyCreateNestedOneWithoutMembersInput {
+  create: CompanyCreateWithoutMembersInput
+  connectOrCreate: CompanyCreateOrConnectWithoutMembersInput
+  connect: CompanyWhereUniqueInput
+}
+
+input CompanyCreateWithoutMembersInput {
+  id: String
+  name: String!
+  avatarUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  questions: QuestionCreateNestedManyWithoutCompanyInput
+  interviews: InterviewCreateNestedManyWithoutCompanyInput
+}
+
+input QuestionCreateNestedManyWithoutCompanyInput {
+  create: [QuestionCreateWithoutCompanyInput!]
+  connectOrCreate: [QuestionCreateOrConnectWithoutCompanyInput!]
+  createMany: QuestionCreateManyCompanyInputEnvelope
+  connect: [QuestionWhereUniqueInput!]
+}
+
+input QuestionCreateWithoutCompanyInput {
+  id: String
+  title: String!
+  goals: QuestionCreategoalsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+  conversations: ConversationCreateNestedManyWithoutQuestionInput
+}
+
+input QuestionCreategoalsInput {
+  set: [String!]!
+}
+
+input ConversationCreateNestedManyWithoutQuestionInput {
+  create: [ConversationCreateWithoutQuestionInput!]
+  connectOrCreate: [ConversationCreateOrConnectWithoutQuestionInput!]
+  createMany: ConversationCreateManyQuestionInputEnvelope
+  connect: [ConversationWhereUniqueInput!]
+}
+
+input ConversationCreateWithoutQuestionInput {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  interview: InterviewCreateNestedOneWithoutConversationsInput!
+  messages: MessageCreateNestedManyWithoutConversationInput
+}
+
+input InterviewCreateNestedOneWithoutConversationsInput {
+  create: InterviewCreateWithoutConversationsInput
+  connectOrCreate: InterviewCreateOrConnectWithoutConversationsInput
+  connect: InterviewWhereUniqueInput
+}
+
+input InterviewCreateWithoutConversationsInput {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  candidate: UserCreateNestedOneWithoutInterviewsInput!
+  company: CompanyCreateNestedOneWithoutInterviewsInput!
+}
+
+input UserCreateNestedOneWithoutInterviewsInput {
+  create: UserCreateWithoutInterviewsInput
+  connectOrCreate: UserCreateOrConnectWithoutInterviewsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutInterviewsInput {
+  id: String
+  email: String!
+  password: String!
+  avatarUrl: String
+  company: CompanyCreateNestedOneWithoutMembersInput
+}
+
+input UserCreateOrConnectWithoutInterviewsInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutInterviewsInput!
+}
+
+input CompanyCreateNestedOneWithoutInterviewsInput {
+  create: CompanyCreateWithoutInterviewsInput
+  connectOrCreate: CompanyCreateOrConnectWithoutInterviewsInput
+  connect: CompanyWhereUniqueInput
+}
+
+input CompanyCreateWithoutInterviewsInput {
+  id: String
+  name: String!
+  avatarUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  members: UserCreateNestedManyWithoutCompanyInput
+  questions: QuestionCreateNestedManyWithoutCompanyInput
+}
+
+input UserCreateNestedManyWithoutCompanyInput {
+  create: [UserCreateWithoutCompanyInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutCompanyInput!]
+  createMany: UserCreateManyCompanyInputEnvelope
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateWithoutCompanyInput {
+  id: String
+  email: String!
+  password: String!
+  avatarUrl: String
+  interviews: InterviewCreateNestedManyWithoutCandidateInput
+}
+
+input InterviewCreateNestedManyWithoutCandidateInput {
+  create: [InterviewCreateWithoutCandidateInput!]
+  connectOrCreate: [InterviewCreateOrConnectWithoutCandidateInput!]
+  createMany: InterviewCreateManyCandidateInputEnvelope
+  connect: [InterviewWhereUniqueInput!]
+}
+
+input InterviewCreateWithoutCandidateInput {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  company: CompanyCreateNestedOneWithoutInterviewsInput!
+  conversations: ConversationCreateNestedManyWithoutInterviewInput
+}
+
+input ConversationCreateNestedManyWithoutInterviewInput {
+  create: [ConversationCreateWithoutInterviewInput!]
+  connectOrCreate: [ConversationCreateOrConnectWithoutInterviewInput!]
+  createMany: ConversationCreateManyInterviewInputEnvelope
+  connect: [ConversationWhereUniqueInput!]
+}
+
+input ConversationCreateWithoutInterviewInput {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  question: QuestionCreateNestedOneWithoutConversationsInput!
+  messages: MessageCreateNestedManyWithoutConversationInput
+}
+
+input QuestionCreateNestedOneWithoutConversationsInput {
+  create: QuestionCreateWithoutConversationsInput
+  connectOrCreate: QuestionCreateOrConnectWithoutConversationsInput
+  connect: QuestionWhereUniqueInput
+}
+
+input QuestionCreateWithoutConversationsInput {
+  id: String
+  title: String!
+  goals: QuestionCreategoalsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+  company: CompanyCreateNestedOneWithoutQuestionsInput!
+}
+
+input CompanyCreateNestedOneWithoutQuestionsInput {
+  create: CompanyCreateWithoutQuestionsInput
+  connectOrCreate: CompanyCreateOrConnectWithoutQuestionsInput
+  connect: CompanyWhereUniqueInput
+}
+
+input CompanyCreateWithoutQuestionsInput {
+  id: String
+  name: String!
+  avatarUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  members: UserCreateNestedManyWithoutCompanyInput
+  interviews: InterviewCreateNestedManyWithoutCompanyInput
+}
+
+input InterviewCreateNestedManyWithoutCompanyInput {
+  create: [InterviewCreateWithoutCompanyInput!]
+  connectOrCreate: [InterviewCreateOrConnectWithoutCompanyInput!]
+  createMany: InterviewCreateManyCompanyInputEnvelope
+  connect: [InterviewWhereUniqueInput!]
+}
+
+input InterviewCreateWithoutCompanyInput {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  candidate: UserCreateNestedOneWithoutInterviewsInput!
+  conversations: ConversationCreateNestedManyWithoutInterviewInput
+}
+
+input InterviewCreateOrConnectWithoutCompanyInput {
+  where: InterviewWhereUniqueInput!
+  create: InterviewCreateWithoutCompanyInput!
+}
+
+input InterviewCreateManyCompanyInputEnvelope {
+  data: [InterviewCreateManyCompanyInput!]!
+  skipDuplicates: Boolean
+}
+
+input InterviewCreateManyCompanyInput {
+  id: String
+  candidateId: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CompanyCreateOrConnectWithoutQuestionsInput {
+  where: CompanyWhereUniqueInput!
+  create: CompanyCreateWithoutQuestionsInput!
+}
+
+input QuestionCreateOrConnectWithoutConversationsInput {
+  where: QuestionWhereUniqueInput!
+  create: QuestionCreateWithoutConversationsInput!
+}
+
+input MessageCreateNestedManyWithoutConversationInput {
+  create: [MessageCreateWithoutConversationInput!]
+  connectOrCreate: [MessageCreateOrConnectWithoutConversationInput!]
+  createMany: MessageCreateManyConversationInputEnvelope
+  connect: [MessageWhereUniqueInput!]
+}
+
+input MessageCreateWithoutConversationInput {
+  id: String
+  role: MessageRole!
+  content: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input MessageCreateOrConnectWithoutConversationInput {
+  where: MessageWhereUniqueInput!
+  create: MessageCreateWithoutConversationInput!
+}
+
+input MessageCreateManyConversationInputEnvelope {
+  data: [MessageCreateManyConversationInput!]!
+  skipDuplicates: Boolean
+}
+
+input MessageCreateManyConversationInput {
+  id: String
+  role: MessageRole!
+  content: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input ConversationCreateOrConnectWithoutInterviewInput {
+  where: ConversationWhereUniqueInput!
+  create: ConversationCreateWithoutInterviewInput!
+}
+
+input ConversationCreateManyInterviewInputEnvelope {
+  data: [ConversationCreateManyInterviewInput!]!
+  skipDuplicates: Boolean
+}
+
+input ConversationCreateManyInterviewInput {
+  id: String
+  questionId: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input InterviewCreateOrConnectWithoutCandidateInput {
+  where: InterviewWhereUniqueInput!
+  create: InterviewCreateWithoutCandidateInput!
+}
+
+input InterviewCreateManyCandidateInputEnvelope {
+  data: [InterviewCreateManyCandidateInput!]!
+  skipDuplicates: Boolean
+}
+
+input InterviewCreateManyCandidateInput {
+  id: String
+  companyId: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input UserCreateOrConnectWithoutCompanyInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutCompanyInput!
+}
+
+input UserCreateManyCompanyInputEnvelope {
+  data: [UserCreateManyCompanyInput!]!
+  skipDuplicates: Boolean
+}
+
+input UserCreateManyCompanyInput {
+  id: String
+  email: String!
+  password: String!
+  avatarUrl: String
+}
+
+input CompanyCreateOrConnectWithoutInterviewsInput {
+  where: CompanyWhereUniqueInput!
+  create: CompanyCreateWithoutInterviewsInput!
+}
+
+input InterviewCreateOrConnectWithoutConversationsInput {
+  where: InterviewWhereUniqueInput!
+  create: InterviewCreateWithoutConversationsInput!
+}
+
+input ConversationCreateOrConnectWithoutQuestionInput {
+  where: ConversationWhereUniqueInput!
+  create: ConversationCreateWithoutQuestionInput!
+}
+
+input ConversationCreateManyQuestionInputEnvelope {
+  data: [ConversationCreateManyQuestionInput!]!
+  skipDuplicates: Boolean
+}
+
+input ConversationCreateManyQuestionInput {
+  id: String
+  interviewId: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input QuestionCreateOrConnectWithoutCompanyInput {
+  where: QuestionWhereUniqueInput!
+  create: QuestionCreateWithoutCompanyInput!
+}
+
+input QuestionCreateManyCompanyInputEnvelope {
+  data: [QuestionCreateManyCompanyInput!]!
+  skipDuplicates: Boolean
+}
+
+input QuestionCreateManyCompanyInput {
+  id: String
+  title: String!
+  goals: QuestionCreategoalsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CompanyCreateOrConnectWithoutMembersInput {
+  where: CompanyWhereUniqueInput!
+  create: CompanyCreateWithoutMembersInput!
+}
+
+input UserUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  avatarUrl: NullableStringFieldUpdateOperationsInput
+  company: CompanyUpdateOneWithoutMembersNestedInput
+  interviews: InterviewUpdateManyWithoutCandidateNestedInput
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input NullableStringFieldUpdateOperationsInput {
+  set: String
+}
+
+input CompanyUpdateOneWithoutMembersNestedInput {
+  create: CompanyCreateWithoutMembersInput
+  connectOrCreate: CompanyCreateOrConnectWithoutMembersInput
+  upsert: CompanyUpsertWithoutMembersInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: CompanyWhereUniqueInput
+  update: CompanyUpdateWithoutMembersInput
+}
+
+input CompanyUpsertWithoutMembersInput {
+  update: CompanyUpdateWithoutMembersInput!
+  create: CompanyCreateWithoutMembersInput!
+}
+
+input CompanyUpdateWithoutMembersInput {
+  id: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  avatarUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  questions: QuestionUpdateManyWithoutCompanyNestedInput
+  interviews: InterviewUpdateManyWithoutCompanyNestedInput
+}
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input QuestionUpdateManyWithoutCompanyNestedInput {
+  create: [QuestionCreateWithoutCompanyInput!]
+  connectOrCreate: [QuestionCreateOrConnectWithoutCompanyInput!]
+  upsert: [QuestionUpsertWithWhereUniqueWithoutCompanyInput!]
+  createMany: QuestionCreateManyCompanyInputEnvelope
+  set: [QuestionWhereUniqueInput!]
+  disconnect: [QuestionWhereUniqueInput!]
+  delete: [QuestionWhereUniqueInput!]
+  connect: [QuestionWhereUniqueInput!]
+  update: [QuestionUpdateWithWhereUniqueWithoutCompanyInput!]
+  updateMany: [QuestionUpdateManyWithWhereWithoutCompanyInput!]
+  deleteMany: [QuestionScalarWhereInput!]
+}
+
+input QuestionUpsertWithWhereUniqueWithoutCompanyInput {
+  where: QuestionWhereUniqueInput!
+  update: QuestionUpdateWithoutCompanyInput!
+  create: QuestionCreateWithoutCompanyInput!
+}
+
+input QuestionUpdateWithoutCompanyInput {
+  id: StringFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  goals: QuestionUpdategoalsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  conversations: ConversationUpdateManyWithoutQuestionNestedInput
+}
+
+input QuestionUpdategoalsInput {
+  set: [String!]
+  push: [String!]
+}
+
+input ConversationUpdateManyWithoutQuestionNestedInput {
+  create: [ConversationCreateWithoutQuestionInput!]
+  connectOrCreate: [ConversationCreateOrConnectWithoutQuestionInput!]
+  upsert: [ConversationUpsertWithWhereUniqueWithoutQuestionInput!]
+  createMany: ConversationCreateManyQuestionInputEnvelope
+  set: [ConversationWhereUniqueInput!]
+  disconnect: [ConversationWhereUniqueInput!]
+  delete: [ConversationWhereUniqueInput!]
+  connect: [ConversationWhereUniqueInput!]
+  update: [ConversationUpdateWithWhereUniqueWithoutQuestionInput!]
+  updateMany: [ConversationUpdateManyWithWhereWithoutQuestionInput!]
+  deleteMany: [ConversationScalarWhereInput!]
+}
+
+input ConversationUpsertWithWhereUniqueWithoutQuestionInput {
+  where: ConversationWhereUniqueInput!
+  update: ConversationUpdateWithoutQuestionInput!
+  create: ConversationCreateWithoutQuestionInput!
+}
+
+input ConversationUpdateWithoutQuestionInput {
+  id: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  interview: InterviewUpdateOneRequiredWithoutConversationsNestedInput
+  messages: MessageUpdateManyWithoutConversationNestedInput
+}
+
+input InterviewUpdateOneRequiredWithoutConversationsNestedInput {
+  create: InterviewCreateWithoutConversationsInput
+  connectOrCreate: InterviewCreateOrConnectWithoutConversationsInput
+  upsert: InterviewUpsertWithoutConversationsInput
+  connect: InterviewWhereUniqueInput
+  update: InterviewUpdateWithoutConversationsInput
+}
+
+input InterviewUpsertWithoutConversationsInput {
+  update: InterviewUpdateWithoutConversationsInput!
+  create: InterviewCreateWithoutConversationsInput!
+}
+
+input InterviewUpdateWithoutConversationsInput {
+  id: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  candidate: UserUpdateOneRequiredWithoutInterviewsNestedInput
+  company: CompanyUpdateOneRequiredWithoutInterviewsNestedInput
+}
+
+input UserUpdateOneRequiredWithoutInterviewsNestedInput {
+  create: UserCreateWithoutInterviewsInput
+  connectOrCreate: UserCreateOrConnectWithoutInterviewsInput
+  upsert: UserUpsertWithoutInterviewsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutInterviewsInput
+}
+
+input UserUpsertWithoutInterviewsInput {
+  update: UserUpdateWithoutInterviewsInput!
+  create: UserCreateWithoutInterviewsInput!
+}
+
+input UserUpdateWithoutInterviewsInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  avatarUrl: NullableStringFieldUpdateOperationsInput
+  company: CompanyUpdateOneWithoutMembersNestedInput
+}
+
+input CompanyUpdateOneRequiredWithoutInterviewsNestedInput {
+  create: CompanyCreateWithoutInterviewsInput
+  connectOrCreate: CompanyCreateOrConnectWithoutInterviewsInput
+  upsert: CompanyUpsertWithoutInterviewsInput
+  connect: CompanyWhereUniqueInput
+  update: CompanyUpdateWithoutInterviewsInput
+}
+
+input CompanyUpsertWithoutInterviewsInput {
+  update: CompanyUpdateWithoutInterviewsInput!
+  create: CompanyCreateWithoutInterviewsInput!
+}
+
+input CompanyUpdateWithoutInterviewsInput {
+  id: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  avatarUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  members: UserUpdateManyWithoutCompanyNestedInput
+  questions: QuestionUpdateManyWithoutCompanyNestedInput
+}
+
+input UserUpdateManyWithoutCompanyNestedInput {
+  create: [UserCreateWithoutCompanyInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutCompanyInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutCompanyInput!]
+  createMany: UserCreateManyCompanyInputEnvelope
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutCompanyInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutCompanyInput!]
+  deleteMany: [UserScalarWhereInput!]
+}
+
+input UserUpsertWithWhereUniqueWithoutCompanyInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutCompanyInput!
+  create: UserCreateWithoutCompanyInput!
+}
+
+input UserUpdateWithoutCompanyInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  avatarUrl: NullableStringFieldUpdateOperationsInput
+  interviews: InterviewUpdateManyWithoutCandidateNestedInput
+}
+
+input InterviewUpdateManyWithoutCandidateNestedInput {
+  create: [InterviewCreateWithoutCandidateInput!]
+  connectOrCreate: [InterviewCreateOrConnectWithoutCandidateInput!]
+  upsert: [InterviewUpsertWithWhereUniqueWithoutCandidateInput!]
+  createMany: InterviewCreateManyCandidateInputEnvelope
+  set: [InterviewWhereUniqueInput!]
+  disconnect: [InterviewWhereUniqueInput!]
+  delete: [InterviewWhereUniqueInput!]
+  connect: [InterviewWhereUniqueInput!]
+  update: [InterviewUpdateWithWhereUniqueWithoutCandidateInput!]
+  updateMany: [InterviewUpdateManyWithWhereWithoutCandidateInput!]
+  deleteMany: [InterviewScalarWhereInput!]
+}
+
+input InterviewUpsertWithWhereUniqueWithoutCandidateInput {
+  where: InterviewWhereUniqueInput!
+  update: InterviewUpdateWithoutCandidateInput!
+  create: InterviewCreateWithoutCandidateInput!
+}
+
+input InterviewUpdateWithoutCandidateInput {
+  id: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  company: CompanyUpdateOneRequiredWithoutInterviewsNestedInput
+  conversations: ConversationUpdateManyWithoutInterviewNestedInput
+}
+
+input ConversationUpdateManyWithoutInterviewNestedInput {
+  create: [ConversationCreateWithoutInterviewInput!]
+  connectOrCreate: [ConversationCreateOrConnectWithoutInterviewInput!]
+  upsert: [ConversationUpsertWithWhereUniqueWithoutInterviewInput!]
+  createMany: ConversationCreateManyInterviewInputEnvelope
+  set: [ConversationWhereUniqueInput!]
+  disconnect: [ConversationWhereUniqueInput!]
+  delete: [ConversationWhereUniqueInput!]
+  connect: [ConversationWhereUniqueInput!]
+  update: [ConversationUpdateWithWhereUniqueWithoutInterviewInput!]
+  updateMany: [ConversationUpdateManyWithWhereWithoutInterviewInput!]
+  deleteMany: [ConversationScalarWhereInput!]
+}
+
+input ConversationUpsertWithWhereUniqueWithoutInterviewInput {
+  where: ConversationWhereUniqueInput!
+  update: ConversationUpdateWithoutInterviewInput!
+  create: ConversationCreateWithoutInterviewInput!
+}
+
+input ConversationUpdateWithoutInterviewInput {
+  id: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  question: QuestionUpdateOneRequiredWithoutConversationsNestedInput
+  messages: MessageUpdateManyWithoutConversationNestedInput
+}
+
+input QuestionUpdateOneRequiredWithoutConversationsNestedInput {
+  create: QuestionCreateWithoutConversationsInput
+  connectOrCreate: QuestionCreateOrConnectWithoutConversationsInput
+  upsert: QuestionUpsertWithoutConversationsInput
+  connect: QuestionWhereUniqueInput
+  update: QuestionUpdateWithoutConversationsInput
+}
+
+input QuestionUpsertWithoutConversationsInput {
+  update: QuestionUpdateWithoutConversationsInput!
+  create: QuestionCreateWithoutConversationsInput!
+}
+
+input QuestionUpdateWithoutConversationsInput {
+  id: StringFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  goals: QuestionUpdategoalsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  company: CompanyUpdateOneRequiredWithoutQuestionsNestedInput
+}
+
+input CompanyUpdateOneRequiredWithoutQuestionsNestedInput {
+  create: CompanyCreateWithoutQuestionsInput
+  connectOrCreate: CompanyCreateOrConnectWithoutQuestionsInput
+  upsert: CompanyUpsertWithoutQuestionsInput
+  connect: CompanyWhereUniqueInput
+  update: CompanyUpdateWithoutQuestionsInput
+}
+
+input CompanyUpsertWithoutQuestionsInput {
+  update: CompanyUpdateWithoutQuestionsInput!
+  create: CompanyCreateWithoutQuestionsInput!
+}
+
+input CompanyUpdateWithoutQuestionsInput {
+  id: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  avatarUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  members: UserUpdateManyWithoutCompanyNestedInput
+  interviews: InterviewUpdateManyWithoutCompanyNestedInput
+}
+
+input InterviewUpdateManyWithoutCompanyNestedInput {
+  create: [InterviewCreateWithoutCompanyInput!]
+  connectOrCreate: [InterviewCreateOrConnectWithoutCompanyInput!]
+  upsert: [InterviewUpsertWithWhereUniqueWithoutCompanyInput!]
+  createMany: InterviewCreateManyCompanyInputEnvelope
+  set: [InterviewWhereUniqueInput!]
+  disconnect: [InterviewWhereUniqueInput!]
+  delete: [InterviewWhereUniqueInput!]
+  connect: [InterviewWhereUniqueInput!]
+  update: [InterviewUpdateWithWhereUniqueWithoutCompanyInput!]
+  updateMany: [InterviewUpdateManyWithWhereWithoutCompanyInput!]
+  deleteMany: [InterviewScalarWhereInput!]
+}
+
+input InterviewUpsertWithWhereUniqueWithoutCompanyInput {
+  where: InterviewWhereUniqueInput!
+  update: InterviewUpdateWithoutCompanyInput!
+  create: InterviewCreateWithoutCompanyInput!
+}
+
+input InterviewUpdateWithoutCompanyInput {
+  id: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  candidate: UserUpdateOneRequiredWithoutInterviewsNestedInput
+  conversations: ConversationUpdateManyWithoutInterviewNestedInput
+}
+
+input InterviewUpdateWithWhereUniqueWithoutCompanyInput {
+  where: InterviewWhereUniqueInput!
+  data: InterviewUpdateWithoutCompanyInput!
+}
+
+input InterviewUpdateManyWithWhereWithoutCompanyInput {
+  where: InterviewScalarWhereInput!
+  data: InterviewUpdateManyMutationInput!
+}
+
+input InterviewScalarWhereInput {
+  AND: [InterviewScalarWhereInput!]
+  OR: [InterviewScalarWhereInput!]
+  NOT: [InterviewScalarWhereInput!]
+  id: StringFilter
+  candidateId: StringFilter
+  companyId: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input InterviewUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input MessageUpdateManyWithoutConversationNestedInput {
+  create: [MessageCreateWithoutConversationInput!]
+  connectOrCreate: [MessageCreateOrConnectWithoutConversationInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutConversationInput!]
+  createMany: MessageCreateManyConversationInputEnvelope
+  set: [MessageWhereUniqueInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  delete: [MessageWhereUniqueInput!]
+  connect: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutConversationInput!]
+  updateMany: [MessageUpdateManyWithWhereWithoutConversationInput!]
+  deleteMany: [MessageScalarWhereInput!]
+}
+
+input MessageUpsertWithWhereUniqueWithoutConversationInput {
+  where: MessageWhereUniqueInput!
+  update: MessageUpdateWithoutConversationInput!
+  create: MessageCreateWithoutConversationInput!
+}
+
+input MessageUpdateWithoutConversationInput {
+  id: StringFieldUpdateOperationsInput
+  role: EnumMessageRoleFieldUpdateOperationsInput
+  content: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input EnumMessageRoleFieldUpdateOperationsInput {
+  set: MessageRole
+}
+
+input MessageUpdateWithWhereUniqueWithoutConversationInput {
+  where: MessageWhereUniqueInput!
+  data: MessageUpdateWithoutConversationInput!
+}
+
+input MessageUpdateManyWithWhereWithoutConversationInput {
+  where: MessageScalarWhereInput!
+  data: MessageUpdateManyMutationInput!
+}
+
+input MessageScalarWhereInput {
+  AND: [MessageScalarWhereInput!]
+  OR: [MessageScalarWhereInput!]
+  NOT: [MessageScalarWhereInput!]
+  id: StringFilter
+  conversationId: StringFilter
+  role: EnumMessageRoleFilter
+  content: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input MessageUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
+  role: EnumMessageRoleFieldUpdateOperationsInput
+  content: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input ConversationUpdateWithWhereUniqueWithoutInterviewInput {
+  where: ConversationWhereUniqueInput!
+  data: ConversationUpdateWithoutInterviewInput!
+}
+
+input ConversationUpdateManyWithWhereWithoutInterviewInput {
+  where: ConversationScalarWhereInput!
+  data: ConversationUpdateManyMutationInput!
+}
+
+input ConversationScalarWhereInput {
+  AND: [ConversationScalarWhereInput!]
+  OR: [ConversationScalarWhereInput!]
+  NOT: [ConversationScalarWhereInput!]
+  id: StringFilter
+  interviewId: StringFilter
+  questionId: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input ConversationUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input InterviewUpdateWithWhereUniqueWithoutCandidateInput {
+  where: InterviewWhereUniqueInput!
+  data: InterviewUpdateWithoutCandidateInput!
+}
+
+input InterviewUpdateManyWithWhereWithoutCandidateInput {
+  where: InterviewScalarWhereInput!
+  data: InterviewUpdateManyMutationInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutCompanyInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutCompanyInput!
+}
+
+input UserUpdateManyWithWhereWithoutCompanyInput {
+  where: UserScalarWhereInput!
+  data: UserUpdateManyMutationInput!
+}
+
+input UserScalarWhereInput {
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+  id: StringFilter
+  email: StringFilter
+  password: StringFilter
+  avatarUrl: StringNullableFilter
+  companyId: StringNullableFilter
+}
+
+input UserUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  avatarUrl: NullableStringFieldUpdateOperationsInput
+}
+
+input ConversationUpdateWithWhereUniqueWithoutQuestionInput {
+  where: ConversationWhereUniqueInput!
+  data: ConversationUpdateWithoutQuestionInput!
+}
+
+input ConversationUpdateManyWithWhereWithoutQuestionInput {
+  where: ConversationScalarWhereInput!
+  data: ConversationUpdateManyMutationInput!
+}
+
+input QuestionUpdateWithWhereUniqueWithoutCompanyInput {
+  where: QuestionWhereUniqueInput!
+  data: QuestionUpdateWithoutCompanyInput!
+}
+
+input QuestionUpdateManyWithWhereWithoutCompanyInput {
+  where: QuestionScalarWhereInput!
+  data: QuestionUpdateManyMutationInput!
+}
+
+input QuestionScalarWhereInput {
+  AND: [QuestionScalarWhereInput!]
+  OR: [QuestionScalarWhereInput!]
+  NOT: [QuestionScalarWhereInput!]
+  id: StringFilter
+  companyId: StringFilter
+  title: StringFilter
+  goals: StringNullableListFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input QuestionUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  goals: QuestionUpdategoalsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input CompanyCreateInput {
+  id: String
+  name: String!
+  avatarUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  members: UserCreateNestedManyWithoutCompanyInput
+  questions: QuestionCreateNestedManyWithoutCompanyInput
+  interviews: InterviewCreateNestedManyWithoutCompanyInput
+}
+
+input CompanyUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  avatarUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  members: UserUpdateManyWithoutCompanyNestedInput
+  questions: QuestionUpdateManyWithoutCompanyNestedInput
+  interviews: InterviewUpdateManyWithoutCompanyNestedInput
+}
+
+input QuestionCreateInput {
+  id: String
+  title: String!
+  goals: QuestionCreategoalsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+  company: CompanyCreateNestedOneWithoutQuestionsInput!
+  conversations: ConversationCreateNestedManyWithoutQuestionInput
+}
+
+input QuestionUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  goals: QuestionUpdategoalsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  company: CompanyUpdateOneRequiredWithoutQuestionsNestedInput
+  conversations: ConversationUpdateManyWithoutQuestionNestedInput
+}
+
+input InterviewCreateInput {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  candidate: UserCreateNestedOneWithoutInterviewsInput!
+  company: CompanyCreateNestedOneWithoutInterviewsInput!
+  conversations: ConversationCreateNestedManyWithoutInterviewInput
+}
+
+input InterviewUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  candidate: UserUpdateOneRequiredWithoutInterviewsNestedInput
+  company: CompanyUpdateOneRequiredWithoutInterviewsNestedInput
+  conversations: ConversationUpdateManyWithoutInterviewNestedInput
+}
+
+input ConversationCreateInput {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  interview: InterviewCreateNestedOneWithoutConversationsInput!
+  question: QuestionCreateNestedOneWithoutConversationsInput!
+  messages: MessageCreateNestedManyWithoutConversationInput
+}
+
+input ConversationUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  interview: InterviewUpdateOneRequiredWithoutConversationsNestedInput
+  question: QuestionUpdateOneRequiredWithoutConversationsNestedInput
+  messages: MessageUpdateManyWithoutConversationNestedInput
+}
+
+input MessageCreateInput {
+  id: String
+  role: MessageRole!
+  content: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+  conversation: ConversationCreateNestedOneWithoutMessagesInput!
+}
+
+input ConversationCreateNestedOneWithoutMessagesInput {
+  create: ConversationCreateWithoutMessagesInput
+  connectOrCreate: ConversationCreateOrConnectWithoutMessagesInput
+  connect: ConversationWhereUniqueInput
+}
+
+input ConversationCreateWithoutMessagesInput {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  interview: InterviewCreateNestedOneWithoutConversationsInput!
+  question: QuestionCreateNestedOneWithoutConversationsInput!
+}
+
+input ConversationCreateOrConnectWithoutMessagesInput {
+  where: ConversationWhereUniqueInput!
+  create: ConversationCreateWithoutMessagesInput!
+}
+
+input MessageUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  role: EnumMessageRoleFieldUpdateOperationsInput
+  content: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  conversation: ConversationUpdateOneRequiredWithoutMessagesNestedInput
+}
+
+input ConversationUpdateOneRequiredWithoutMessagesNestedInput {
+  create: ConversationCreateWithoutMessagesInput
+  connectOrCreate: ConversationCreateOrConnectWithoutMessagesInput
+  upsert: ConversationUpsertWithoutMessagesInput
+  connect: ConversationWhereUniqueInput
+  update: ConversationUpdateWithoutMessagesInput
+}
+
+input ConversationUpsertWithoutMessagesInput {
+  update: ConversationUpdateWithoutMessagesInput!
+  create: ConversationCreateWithoutMessagesInput!
+}
+
+input ConversationUpdateWithoutMessagesInput {
+  id: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  interview: InterviewUpdateOneRequiredWithoutConversationsNestedInput
+  question: QuestionUpdateOneRequiredWithoutConversationsNestedInput
 }
