@@ -44,7 +44,6 @@ type QuestionCount {
 
 type Question {
   id: ID!
-  companyId: String!
   title: String!
   goals: [String!]
   createdAt: DateTime!
@@ -61,8 +60,6 @@ input ConversationWhereInput {
   id: StringFilter
   interviewId: StringFilter
   questionId: StringFilter
-  createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
   interview: InterviewRelationFilter
   question: QuestionRelationFilter
   messages: MessageListRelationFilter
@@ -102,28 +99,6 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
-input DateTimeFilter {
-  equals: DateTime
-  in: [DateTime!]
-  notIn: [DateTime!]
-  lt: DateTime
-  lte: DateTime
-  gt: DateTime
-  gte: DateTime
-  not: NestedDateTimeFilter
-}
-
-input NestedDateTimeFilter {
-  equals: DateTime
-  in: [DateTime!]
-  notIn: [DateTime!]
-  lt: DateTime
-  lte: DateTime
-  gt: DateTime
-  gte: DateTime
-  not: NestedDateTimeFilter
-}
-
 input InterviewRelationFilter {
   is: InterviewWhereInput
   isNot: InterviewWhereInput
@@ -136,8 +111,6 @@ input InterviewWhereInput {
   id: StringFilter
   candidateId: StringFilter
   companyId: StringFilter
-  createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
   candidate: UserRelationFilter
   company: CompanyRelationFilter
   conversations: ConversationListRelationFilter
@@ -202,8 +175,6 @@ input CompanyWhereInput {
   id: StringFilter
   name: StringFilter
   avatarUrl: StringNullableFilter
-  createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
   members: UserListRelationFilter
   questions: QuestionListRelationFilter
   interviews: InterviewListRelationFilter
@@ -229,8 +200,6 @@ input QuestionWhereInput {
   companyId: StringFilter
   title: StringFilter
   goals: StringNullableListFilter
-  createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
   company: CompanyRelationFilter
   conversations: ConversationListRelationFilter
 }
@@ -274,8 +243,6 @@ input MessageWhereInput {
   conversationId: StringFilter
   role: EnumMessageRoleFilter
   content: StringFilter
-  createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
   conversation: ConversationRelationFilter
 }
 
@@ -307,8 +274,6 @@ input ConversationOrderByWithRelationInput {
   id: SortOrder
   interviewId: SortOrder
   questionId: SortOrder
-  createdAt: SortOrder
-  updatedAt: SortOrder
   interview: InterviewOrderByWithRelationInput
   question: QuestionOrderByWithRelationInput
   messages: MessageOrderByRelationAggregateInput
@@ -323,8 +288,6 @@ input InterviewOrderByWithRelationInput {
   id: SortOrder
   candidateId: SortOrder
   companyId: SortOrder
-  createdAt: SortOrder
-  updatedAt: SortOrder
   candidate: UserOrderByWithRelationInput
   company: CompanyOrderByWithRelationInput
   conversations: ConversationOrderByRelationAggregateInput
@@ -344,8 +307,6 @@ input CompanyOrderByWithRelationInput {
   id: SortOrder
   name: SortOrder
   avatarUrl: SortOrder
-  createdAt: SortOrder
-  updatedAt: SortOrder
   members: UserOrderByRelationAggregateInput
   questions: QuestionOrderByRelationAggregateInput
   interviews: InterviewOrderByRelationAggregateInput
@@ -372,8 +333,6 @@ input QuestionOrderByWithRelationInput {
   companyId: SortOrder
   title: SortOrder
   goals: SortOrder
-  createdAt: SortOrder
-  updatedAt: SortOrder
   company: CompanyOrderByWithRelationInput
   conversations: ConversationOrderByRelationAggregateInput
 }
@@ -396,7 +355,6 @@ enum ConversationScalarFieldEnum {
 
 type Message {
   id: ID!
-  conversationId: String!
   role: MessageRole!
   content: String!
   createdAt: DateTime!
@@ -410,8 +368,6 @@ type ConversationCount {
 
 type Conversation {
   id: ID!
-  interviewId: String!
-  questionId: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   interview: Interview!
@@ -425,8 +381,6 @@ input MessageOrderByWithRelationInput {
   conversationId: SortOrder
   role: SortOrder
   content: SortOrder
-  createdAt: SortOrder
-  updatedAt: SortOrder
   conversation: ConversationOrderByWithRelationInput
 }
 
@@ -449,8 +403,6 @@ type InterviewCount {
 
 type Interview {
   id: ID!
-  candidateId: String!
-  companyId: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   candidate: User!
@@ -466,9 +418,7 @@ type UserCount {
 type User {
   id: ID!
   email: String!
-  password: String!
   avatarUrl: String
-  companyId: String
   company: Company
   interviews(where: InterviewWhereInput, orderBy: [InterviewOrderByWithRelationInput!], cursor: InterviewWhereUniqueInput, take: Int, skip: Int, distinct: [InterviewScalarFieldEnum!]): [Interview!]
   _count: UserCount!
@@ -513,8 +463,6 @@ enum QuestionScalarFieldEnum {
 
 type InterviewCountAggregate {
   id: Int!
-  candidateId: Int!
-  companyId: Int!
   createdAt: Int!
   updatedAt: Int!
   _all: Int!
@@ -522,23 +470,18 @@ type InterviewCountAggregate {
 
 type InterviewMinAggregate {
   id: String
-  candidateId: String
-  companyId: String
   createdAt: DateTime
   updatedAt: DateTime
 }
 
 type InterviewMaxAggregate {
   id: String
-  candidateId: String
-  companyId: String
   createdAt: DateTime
   updatedAt: DateTime
 }
 
 type QuestionCountAggregate {
   id: Int!
-  companyId: Int!
   title: Int!
   goals: Int!
   createdAt: Int!
@@ -548,7 +491,6 @@ type QuestionCountAggregate {
 
 type QuestionMinAggregate {
   id: String
-  companyId: String
   title: String
   createdAt: DateTime
   updatedAt: DateTime
@@ -556,7 +498,6 @@ type QuestionMinAggregate {
 
 type QuestionMaxAggregate {
   id: String
-  companyId: String
   title: String
   createdAt: DateTime
   updatedAt: DateTime
@@ -565,32 +506,24 @@ type QuestionMaxAggregate {
 type UserCountAggregate {
   id: Int!
   email: Int!
-  password: Int!
   avatarUrl: Int!
-  companyId: Int!
   _all: Int!
 }
 
 type UserMinAggregate {
   id: String
   email: String
-  password: String
   avatarUrl: String
-  companyId: String
 }
 
 type UserMaxAggregate {
   id: String
   email: String
-  password: String
   avatarUrl: String
-  companyId: String
 }
 
 type ConversationCountAggregate {
   id: Int!
-  interviewId: Int!
-  questionId: Int!
   createdAt: Int!
   updatedAt: Int!
   _all: Int!
@@ -598,23 +531,18 @@ type ConversationCountAggregate {
 
 type ConversationMinAggregate {
   id: String
-  interviewId: String
-  questionId: String
   createdAt: DateTime
   updatedAt: DateTime
 }
 
 type ConversationMaxAggregate {
   id: String
-  interviewId: String
-  questionId: String
   createdAt: DateTime
   updatedAt: DateTime
 }
 
 type MessageCountAggregate {
   id: Int!
-  conversationId: Int!
   role: Int!
   content: Int!
   createdAt: Int!
@@ -624,7 +552,6 @@ type MessageCountAggregate {
 
 type MessageMinAggregate {
   id: String
-  conversationId: String
   role: MessageRole
   content: String
   createdAt: DateTime
@@ -633,7 +560,6 @@ type MessageMinAggregate {
 
 type MessageMaxAggregate {
   id: String
-  conversationId: String
   role: MessageRole
   content: String
   createdAt: DateTime
@@ -720,8 +646,6 @@ input CompanyCreateWithoutMembersInput {
   id: String
   name: String!
   avatarUrl: String
-  createdAt: DateTime
-  updatedAt: DateTime
   questions: QuestionCreateNestedManyWithoutCompanyInput
   interviews: InterviewCreateNestedManyWithoutCompanyInput
 }
@@ -737,8 +661,6 @@ input QuestionCreateWithoutCompanyInput {
   id: String
   title: String!
   goals: QuestionCreategoalsInput
-  createdAt: DateTime
-  updatedAt: DateTime
   conversations: ConversationCreateNestedManyWithoutQuestionInput
 }
 
@@ -755,8 +677,6 @@ input ConversationCreateNestedManyWithoutQuestionInput {
 
 input ConversationCreateWithoutQuestionInput {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
   interview: InterviewCreateNestedOneWithoutConversationsInput!
   messages: MessageCreateNestedManyWithoutConversationInput
 }
@@ -769,8 +689,6 @@ input InterviewCreateNestedOneWithoutConversationsInput {
 
 input InterviewCreateWithoutConversationsInput {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
   candidate: UserCreateNestedOneWithoutInterviewsInput!
   company: CompanyCreateNestedOneWithoutInterviewsInput!
 }
@@ -804,8 +722,6 @@ input CompanyCreateWithoutInterviewsInput {
   id: String
   name: String!
   avatarUrl: String
-  createdAt: DateTime
-  updatedAt: DateTime
   members: UserCreateNestedManyWithoutCompanyInput
   questions: QuestionCreateNestedManyWithoutCompanyInput
 }
@@ -834,8 +750,6 @@ input InterviewCreateNestedManyWithoutCandidateInput {
 
 input InterviewCreateWithoutCandidateInput {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
   company: CompanyCreateNestedOneWithoutInterviewsInput!
   conversations: ConversationCreateNestedManyWithoutInterviewInput
 }
@@ -849,8 +763,6 @@ input ConversationCreateNestedManyWithoutInterviewInput {
 
 input ConversationCreateWithoutInterviewInput {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
   question: QuestionCreateNestedOneWithoutConversationsInput!
   messages: MessageCreateNestedManyWithoutConversationInput
 }
@@ -865,8 +777,6 @@ input QuestionCreateWithoutConversationsInput {
   id: String
   title: String!
   goals: QuestionCreategoalsInput
-  createdAt: DateTime
-  updatedAt: DateTime
   company: CompanyCreateNestedOneWithoutQuestionsInput!
 }
 
@@ -880,8 +790,6 @@ input CompanyCreateWithoutQuestionsInput {
   id: String
   name: String!
   avatarUrl: String
-  createdAt: DateTime
-  updatedAt: DateTime
   members: UserCreateNestedManyWithoutCompanyInput
   interviews: InterviewCreateNestedManyWithoutCompanyInput
 }
@@ -895,8 +803,6 @@ input InterviewCreateNestedManyWithoutCompanyInput {
 
 input InterviewCreateWithoutCompanyInput {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
   candidate: UserCreateNestedOneWithoutInterviewsInput!
   conversations: ConversationCreateNestedManyWithoutInterviewInput
 }
@@ -914,8 +820,6 @@ input InterviewCreateManyCompanyInputEnvelope {
 input InterviewCreateManyCompanyInput {
   id: String
   candidateId: String!
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 input CompanyCreateOrConnectWithoutQuestionsInput {
@@ -939,8 +843,6 @@ input MessageCreateWithoutConversationInput {
   id: String
   role: MessageRole!
   content: String!
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 input MessageCreateOrConnectWithoutConversationInput {
@@ -957,8 +859,6 @@ input MessageCreateManyConversationInput {
   id: String
   role: MessageRole!
   content: String!
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 input ConversationCreateOrConnectWithoutInterviewInput {
@@ -974,8 +874,6 @@ input ConversationCreateManyInterviewInputEnvelope {
 input ConversationCreateManyInterviewInput {
   id: String
   questionId: String!
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 input InterviewCreateOrConnectWithoutCandidateInput {
@@ -991,8 +889,6 @@ input InterviewCreateManyCandidateInputEnvelope {
 input InterviewCreateManyCandidateInput {
   id: String
   companyId: String!
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 input UserCreateOrConnectWithoutCompanyInput {
@@ -1035,8 +931,6 @@ input ConversationCreateManyQuestionInputEnvelope {
 input ConversationCreateManyQuestionInput {
   id: String
   interviewId: String!
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 input QuestionCreateOrConnectWithoutCompanyInput {
@@ -1053,8 +947,6 @@ input QuestionCreateManyCompanyInput {
   id: String
   title: String!
   goals: QuestionCreategoalsInput
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 input CompanyCreateOrConnectWithoutMembersInput {
@@ -1098,14 +990,8 @@ input CompanyUpdateWithoutMembersInput {
   id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   avatarUrl: NullableStringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   questions: QuestionUpdateManyWithoutCompanyNestedInput
   interviews: InterviewUpdateManyWithoutCompanyNestedInput
-}
-
-input DateTimeFieldUpdateOperationsInput {
-  set: DateTime
 }
 
 input QuestionUpdateManyWithoutCompanyNestedInput {
@@ -1132,8 +1018,6 @@ input QuestionUpdateWithoutCompanyInput {
   id: StringFieldUpdateOperationsInput
   title: StringFieldUpdateOperationsInput
   goals: QuestionUpdategoalsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   conversations: ConversationUpdateManyWithoutQuestionNestedInput
 }
 
@@ -1164,8 +1048,6 @@ input ConversationUpsertWithWhereUniqueWithoutQuestionInput {
 
 input ConversationUpdateWithoutQuestionInput {
   id: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   interview: InterviewUpdateOneRequiredWithoutConversationsNestedInput
   messages: MessageUpdateManyWithoutConversationNestedInput
 }
@@ -1185,8 +1067,6 @@ input InterviewUpsertWithoutConversationsInput {
 
 input InterviewUpdateWithoutConversationsInput {
   id: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   candidate: UserUpdateOneRequiredWithoutInterviewsNestedInput
   company: CompanyUpdateOneRequiredWithoutInterviewsNestedInput
 }
@@ -1229,8 +1109,6 @@ input CompanyUpdateWithoutInterviewsInput {
   id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   avatarUrl: NullableStringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   members: UserUpdateManyWithoutCompanyNestedInput
   questions: QuestionUpdateManyWithoutCompanyNestedInput
 }
@@ -1285,8 +1163,6 @@ input InterviewUpsertWithWhereUniqueWithoutCandidateInput {
 
 input InterviewUpdateWithoutCandidateInput {
   id: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   company: CompanyUpdateOneRequiredWithoutInterviewsNestedInput
   conversations: ConversationUpdateManyWithoutInterviewNestedInput
 }
@@ -1313,8 +1189,6 @@ input ConversationUpsertWithWhereUniqueWithoutInterviewInput {
 
 input ConversationUpdateWithoutInterviewInput {
   id: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   question: QuestionUpdateOneRequiredWithoutConversationsNestedInput
   messages: MessageUpdateManyWithoutConversationNestedInput
 }
@@ -1336,8 +1210,6 @@ input QuestionUpdateWithoutConversationsInput {
   id: StringFieldUpdateOperationsInput
   title: StringFieldUpdateOperationsInput
   goals: QuestionUpdategoalsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   company: CompanyUpdateOneRequiredWithoutQuestionsNestedInput
 }
 
@@ -1358,8 +1230,6 @@ input CompanyUpdateWithoutQuestionsInput {
   id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   avatarUrl: NullableStringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   members: UserUpdateManyWithoutCompanyNestedInput
   interviews: InterviewUpdateManyWithoutCompanyNestedInput
 }
@@ -1386,8 +1256,6 @@ input InterviewUpsertWithWhereUniqueWithoutCompanyInput {
 
 input InterviewUpdateWithoutCompanyInput {
   id: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   candidate: UserUpdateOneRequiredWithoutInterviewsNestedInput
   conversations: ConversationUpdateManyWithoutInterviewNestedInput
 }
@@ -1409,14 +1277,10 @@ input InterviewScalarWhereInput {
   id: StringFilter
   candidateId: StringFilter
   companyId: StringFilter
-  createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
 }
 
 input InterviewUpdateManyMutationInput {
   id: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input MessageUpdateManyWithoutConversationNestedInput {
@@ -1443,8 +1307,6 @@ input MessageUpdateWithoutConversationInput {
   id: StringFieldUpdateOperationsInput
   role: EnumMessageRoleFieldUpdateOperationsInput
   content: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input EnumMessageRoleFieldUpdateOperationsInput {
@@ -1469,16 +1331,12 @@ input MessageScalarWhereInput {
   conversationId: StringFilter
   role: EnumMessageRoleFilter
   content: StringFilter
-  createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
 }
 
 input MessageUpdateManyMutationInput {
   id: StringFieldUpdateOperationsInput
   role: EnumMessageRoleFieldUpdateOperationsInput
   content: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input ConversationUpdateWithWhereUniqueWithoutInterviewInput {
@@ -1498,14 +1356,10 @@ input ConversationScalarWhereInput {
   id: StringFilter
   interviewId: StringFilter
   questionId: StringFilter
-  createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
 }
 
 input ConversationUpdateManyMutationInput {
   id: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input InterviewUpdateWithWhereUniqueWithoutCandidateInput {
@@ -1574,24 +1428,18 @@ input QuestionScalarWhereInput {
   companyId: StringFilter
   title: StringFilter
   goals: StringNullableListFilter
-  createdAt: DateTimeFilter
-  updatedAt: DateTimeFilter
 }
 
 input QuestionUpdateManyMutationInput {
   id: StringFieldUpdateOperationsInput
   title: StringFieldUpdateOperationsInput
   goals: QuestionUpdategoalsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input CompanyCreateInput {
   id: String
   name: String!
   avatarUrl: String
-  createdAt: DateTime
-  updatedAt: DateTime
   members: UserCreateNestedManyWithoutCompanyInput
   questions: QuestionCreateNestedManyWithoutCompanyInput
   interviews: InterviewCreateNestedManyWithoutCompanyInput
@@ -1601,8 +1449,6 @@ input CompanyUpdateInput {
   id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
   avatarUrl: NullableStringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   members: UserUpdateManyWithoutCompanyNestedInput
   questions: QuestionUpdateManyWithoutCompanyNestedInput
   interviews: InterviewUpdateManyWithoutCompanyNestedInput
@@ -1612,8 +1458,6 @@ input QuestionCreateInput {
   id: String
   title: String!
   goals: QuestionCreategoalsInput
-  createdAt: DateTime
-  updatedAt: DateTime
   company: CompanyCreateNestedOneWithoutQuestionsInput!
   conversations: ConversationCreateNestedManyWithoutQuestionInput
 }
@@ -1622,16 +1466,12 @@ input QuestionUpdateInput {
   id: StringFieldUpdateOperationsInput
   title: StringFieldUpdateOperationsInput
   goals: QuestionUpdategoalsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   company: CompanyUpdateOneRequiredWithoutQuestionsNestedInput
   conversations: ConversationUpdateManyWithoutQuestionNestedInput
 }
 
 input InterviewCreateInput {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
   candidate: UserCreateNestedOneWithoutInterviewsInput!
   company: CompanyCreateNestedOneWithoutInterviewsInput!
   conversations: ConversationCreateNestedManyWithoutInterviewInput
@@ -1639,8 +1479,6 @@ input InterviewCreateInput {
 
 input InterviewUpdateInput {
   id: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   candidate: UserUpdateOneRequiredWithoutInterviewsNestedInput
   company: CompanyUpdateOneRequiredWithoutInterviewsNestedInput
   conversations: ConversationUpdateManyWithoutInterviewNestedInput
@@ -1648,8 +1486,6 @@ input InterviewUpdateInput {
 
 input ConversationCreateInput {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
   interview: InterviewCreateNestedOneWithoutConversationsInput!
   question: QuestionCreateNestedOneWithoutConversationsInput!
   messages: MessageCreateNestedManyWithoutConversationInput
@@ -1657,8 +1493,6 @@ input ConversationCreateInput {
 
 input ConversationUpdateInput {
   id: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   interview: InterviewUpdateOneRequiredWithoutConversationsNestedInput
   question: QuestionUpdateOneRequiredWithoutConversationsNestedInput
   messages: MessageUpdateManyWithoutConversationNestedInput
@@ -1668,8 +1502,6 @@ input MessageCreateInput {
   id: String
   role: MessageRole!
   content: String!
-  createdAt: DateTime
-  updatedAt: DateTime
   conversation: ConversationCreateNestedOneWithoutMessagesInput!
 }
 
@@ -1681,8 +1513,6 @@ input ConversationCreateNestedOneWithoutMessagesInput {
 
 input ConversationCreateWithoutMessagesInput {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
   interview: InterviewCreateNestedOneWithoutConversationsInput!
   question: QuestionCreateNestedOneWithoutConversationsInput!
 }
@@ -1696,8 +1526,6 @@ input MessageUpdateInput {
   id: StringFieldUpdateOperationsInput
   role: EnumMessageRoleFieldUpdateOperationsInput
   content: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   conversation: ConversationUpdateOneRequiredWithoutMessagesNestedInput
 }
 
@@ -1716,8 +1544,6 @@ input ConversationUpsertWithoutMessagesInput {
 
 input ConversationUpdateWithoutMessagesInput {
   id: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
   interview: InterviewUpdateOneRequiredWithoutConversationsNestedInput
   question: QuestionUpdateOneRequiredWithoutConversationsNestedInput
 }

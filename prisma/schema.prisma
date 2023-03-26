@@ -20,8 +20,10 @@ datasource db {
 model User {
   id         String      @id @default(uuid())
   email      String      @unique
+  /// @HideField({ output: true, input: false })
   password   String
   avatarUrl  String?     @map("avatar_url")
+  /// @HideField({ output: true, input: false })
   companyId  String?     @map("company_id")
   company    Company?    @relation(fields: [companyId], references: [id])
   interviews Interview[]
@@ -33,7 +35,9 @@ model Company {
   id         String      @id @default(uuid())
   name       String
   avatarUrl  String?     @map("avatar_url")
+  /// @HideField({ output: false, input: true })
   createdAt  DateTime    @default(now()) @map("created_at")
+  /// @HideField({ output: false, input: true })
   updatedAt  DateTime    @updatedAt @map("updated_at")
   members    User[]
   questions  Question[]
@@ -44,10 +48,13 @@ model Company {
 
 model Question {
   id            String         @id @default(uuid())
+  /// @HideField({ output: true, input: false })
   companyId     String         @map("company_id")
   title         String
   goals         String[]
+  /// @HideField({ output: false, input: true })
   createdAt     DateTime       @default(now()) @map("created_at")
+  /// @HideField({ output: false, input: true })
   updatedAt     DateTime       @updatedAt @map("updated_at")
   company       Company        @relation(fields: [companyId], references: [id])
   conversations Conversation[]
@@ -58,9 +65,13 @@ model Question {
 
 model Interview {
   id            String         @id @default(uuid())
+  /// @HideField({ output: true, input: false })
   candidateId   String         @map("candidate_id")
+  /// @HideField({ output: true, input: false })
   companyId     String         @map("company_id")
+  /// @HideField({ output: false, input: true })
   createdAt     DateTime       @default(now()) @map("created_at")
+  /// @HideField({ output: false, input: true })
   updatedAt     DateTime       @updatedAt @map("updated_at")
   candidate     User           @relation(fields: [candidateId], references: [id])
   company       Company        @relation(fields: [companyId], references: [id])
@@ -74,9 +85,13 @@ model Interview {
 
 model Conversation {
   id          String    @id @default(uuid())
+  /// @HideField({ output: true, input: false })
   interviewId String    @map("interview_id")
+  /// @HideField({ output: true, input: false })
   questionId  String    @map("question_id")
+  /// @HideField({ output: false, input: true })
   createdAt   DateTime  @default(now()) @map("created_at")
+  /// @HideField({ output: false, input: true })
   updatedAt   DateTime  @updatedAt @map("updated_at")
   interview   Interview @relation(fields: [interviewId], references: [id])
   question    Question  @relation(fields: [questionId], references: [id])
@@ -90,10 +105,13 @@ model Conversation {
 
 model Message {
   id             String       @id @default(uuid())
+  /// @HideField({ output: true, input: false })
   conversationId String       @map("conversation_id")
   role           MessageRole
   content        String
+  /// @HideField({ output: false, input: true })
   createdAt      DateTime     @default(now()) @map("created_at")
+  /// @HideField({ output: false, input: true })
   updatedAt      DateTime     @updatedAt @map("updated_at")
   conversation   Conversation @relation(fields: [conversationId], references: [id])
 
