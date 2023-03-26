@@ -75,4 +75,12 @@ export class InterviewResolver {
   ): Promise<Conversation[]> {
     return this.interviewService.conversations(interview, args);
   }
+
+  @Mutation(() => Interview, { nullable: false })
+  async setUpCompleteInterview(
+    @Args('candidateId') candidateId: string,
+    @Args('companyId') companyId: string,
+  ): Promise<Interview> {
+    return this.interviewService.setUpCompleInterview(candidateId, companyId);
+  }
 }

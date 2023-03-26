@@ -15,10 +15,14 @@ import {
   UpdateOneInterviewArgs,
 } from 'src/@generated/interview';
 import { User } from 'src/@generated/user';
+import { CulturalFitBotService } from '../cultural-fit-bot/cultural-fit-bot.service';
 
 @Injectable()
 export class InterviewService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly cultivateBotService: CulturalFitBotService,
+  ) {}
 
   async findMany(args: FindManyInterviewArgs): Promise<Interview[]> {
     return this.prisma.interview.findMany(args);
@@ -59,5 +63,70 @@ export class InterviewService {
     return this.prisma.interview
       .findUnique({ where: { id: interview.id } })
       .conversations(args);
+  }
+
+  async setUpCompleInterview(
+    candidateId: string,
+    companyId: string,
+  ): Promise<Interview> {
+    const interview = await this.prisma.interview.upsert({
+      where: {
+        candidateId_companyId: {
+          candidateId,
+          companyId,
+        },
+      },
+      update: {},
+      create: {
+        candidate: {
+          connect: {
+            id: candidateId,
+          },
+        },
+        company: {
+          connect: {
+            id: companyId,
+          },
+        },
+      },
+    });
+
+    const questions = await this.prisma.question.findMany({
+      select: {
+        id: true,
+      },
+      where: {
+        companyId,
+      },
+    });
+
+    await this.prisma.conversation.createMany({
+      data: [
+        ...questions.map((question) => ({
+          questionId: question.id,
+          interviewId: interview.id,
+        })),
+      ],
+      skipDuplicates: true,
+    });
+
+    const conversations = await this.prisma.conversation.findMany({
+      select: {
+        id: true,
+      },
+      where: {
+        interviewId: interview.id,
+      },
+    });
+
+    await Promise.all(
+      conversations.map(async ({ id }) => {
+        try {
+          await this.cultivateBotService.chatWithCulturalFitBot(id, null);
+        } catch (e) {}
+      }),
+    );
+
+    return interview;
   }
 }

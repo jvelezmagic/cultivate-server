@@ -5,6 +5,7 @@
 type CompanyCountAggregate {
   id: Int!
   name: Int!
+  description: Int!
   avatarUrl: Int!
   createdAt: Int!
   updatedAt: Int!
@@ -14,6 +15,7 @@ type CompanyCountAggregate {
 type CompanyMinAggregate {
   id: String
   name: String
+  description: String
   avatarUrl: String
   createdAt: DateTime
   updatedAt: DateTime
@@ -27,6 +29,7 @@ scalar DateTime
 type CompanyMaxAggregate {
   id: String
   name: String
+  description: String
   avatarUrl: String
   createdAt: DateTime
   updatedAt: DateTime
@@ -174,6 +177,7 @@ input CompanyWhereInput {
   NOT: [CompanyWhereInput!]
   id: StringFilter
   name: StringFilter
+  description: StringFilter
   avatarUrl: StringNullableFilter
   members: UserListRelationFilter
   questions: QuestionListRelationFilter
@@ -306,6 +310,7 @@ input UserOrderByWithRelationInput {
 input CompanyOrderByWithRelationInput {
   id: SortOrder
   name: SortOrder
+  description: SortOrder
   avatarUrl: SortOrder
   members: UserOrderByRelationAggregateInput
   questions: QuestionOrderByRelationAggregateInput
@@ -343,6 +348,12 @@ input MessageOrderByRelationAggregateInput {
 
 input ConversationWhereUniqueInput {
   id: String
+  interviewId_questionId: ConversationInterviewIdQuestionIdCompoundUniqueInput
+}
+
+input ConversationInterviewIdQuestionIdCompoundUniqueInput {
+  interviewId: String!
+  questionId: String!
 }
 
 enum ConversationScalarFieldEnum {
@@ -447,6 +458,7 @@ enum InterviewScalarFieldEnum {
 type Company {
   id: ID!
   name: String!
+  description: String!
   avatarUrl: String
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -617,6 +629,7 @@ input CompanyWhereUniqueInput {
 enum CompanyScalarFieldEnum {
   id
   name
+  description
   avatarUrl
   createdAt
   updatedAt
@@ -635,13 +648,14 @@ type Mutation {
   createInterview(data: InterviewCreateInput!): Interview!
   updateInterview(data: InterviewUpdateInput!, where: InterviewWhereUniqueInput!): Interview!
   deleteInterview(where: InterviewWhereUniqueInput!): Interview
+  setUpCompleteInterview(candidateId: String!, companyId: String!): Interview!
+  askCulturalBot(conversationId: String!, content: String): String
   createConversation(data: ConversationCreateInput!): Conversation!
   updateConversation(data: ConversationUpdateInput!, where: ConversationWhereUniqueInput!): Conversation!
   deleteConversation(where: ConversationWhereUniqueInput!): Conversation!
   createMessage(data: MessageCreateInput!): Message!
   updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message!
   deleteMessage(where: MessageWhereUniqueInput!): Message!
-  askCulturalBot(conversationId: String!, content: String): String
 }
 
 input UserCreateInput {
@@ -662,6 +676,7 @@ input CompanyCreateNestedOneWithoutMembersInput {
 input CompanyCreateWithoutMembersInput {
   id: String
   name: String!
+  description: String!
   avatarUrl: String
   questions: QuestionCreateNestedManyWithoutCompanyInput
   interviews: InterviewCreateNestedManyWithoutCompanyInput
@@ -738,6 +753,7 @@ input CompanyCreateNestedOneWithoutInterviewsInput {
 input CompanyCreateWithoutInterviewsInput {
   id: String
   name: String!
+  description: String!
   avatarUrl: String
   members: UserCreateNestedManyWithoutCompanyInput
   questions: QuestionCreateNestedManyWithoutCompanyInput
@@ -806,6 +822,7 @@ input CompanyCreateNestedOneWithoutQuestionsInput {
 input CompanyCreateWithoutQuestionsInput {
   id: String
   name: String!
+  description: String!
   avatarUrl: String
   members: UserCreateNestedManyWithoutCompanyInput
   interviews: InterviewCreateNestedManyWithoutCompanyInput
@@ -1006,6 +1023,7 @@ input CompanyUpsertWithoutMembersInput {
 input CompanyUpdateWithoutMembersInput {
   id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
   avatarUrl: NullableStringFieldUpdateOperationsInput
   questions: QuestionUpdateManyWithoutCompanyNestedInput
   interviews: InterviewUpdateManyWithoutCompanyNestedInput
@@ -1125,6 +1143,7 @@ input CompanyUpsertWithoutInterviewsInput {
 input CompanyUpdateWithoutInterviewsInput {
   id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
   avatarUrl: NullableStringFieldUpdateOperationsInput
   members: UserUpdateManyWithoutCompanyNestedInput
   questions: QuestionUpdateManyWithoutCompanyNestedInput
@@ -1246,6 +1265,7 @@ input CompanyUpsertWithoutQuestionsInput {
 input CompanyUpdateWithoutQuestionsInput {
   id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
   avatarUrl: NullableStringFieldUpdateOperationsInput
   members: UserUpdateManyWithoutCompanyNestedInput
   interviews: InterviewUpdateManyWithoutCompanyNestedInput
@@ -1456,6 +1476,7 @@ input QuestionUpdateManyMutationInput {
 input CompanyCreateInput {
   id: String
   name: String!
+  description: String!
   avatarUrl: String
   members: UserCreateNestedManyWithoutCompanyInput
   questions: QuestionCreateNestedManyWithoutCompanyInput
@@ -1465,6 +1486,7 @@ input CompanyCreateInput {
 input CompanyUpdateInput {
   id: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
   avatarUrl: NullableStringFieldUpdateOperationsInput
   members: UserUpdateManyWithoutCompanyNestedInput
   questions: QuestionUpdateManyWithoutCompanyNestedInput
