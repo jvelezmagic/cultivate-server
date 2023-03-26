@@ -150,4 +150,57 @@ export class CulturalFitBotService {
       return null;
     }
   }
+
+  async createConversationSummary(conversationId: string) {
+    const messages = await this.prisma.message.findMany({
+      select: {
+        role: true,
+        content: true,
+      },
+      where: {
+        conversationId: conversationId,
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+
+    const questionGoals = await this.prisma.conversation
+      .findUnique({
+        where: {
+          id: conversationId,
+        },
+      })
+      .question({ select: { goals: true } });
+
+    const conversationMessage = messages
+      .map((message) => {
+        return `${message.role}: ${message.content}`;
+      })
+      .reduce((acc, message) => {
+        return `${acc}\n${message}`;
+      });
+
+    const instructions = `Please summarize the conversation in a few sentences. The summary should include the candidate's strengths and weaknesses, as well as any other relevant information that you think would be useful to the organization. Remember to keep the summary within the predefined goals of the question: ${questionGoals.goals.join(
+      ', ',
+    )} Conversation: ${conversationMessage}`;
+
+    try {
+      const response = await this.openAIApi.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          this.CULTURAL_FIT_ROLE,
+          {
+            role: 'user' as const,
+            content: instructions,
+          },
+        ],
+        temperature: 0,
+      });
+
+      return response.data.choices[0].message.content;
+    } catch (error) {
+      return null;
+    }
+  }
 }

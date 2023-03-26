@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CulturalFitBotService } from './cultural-fit-bot.service';
 
 @Resolver()
@@ -14,5 +14,10 @@ export class CulturalFitBotResolver {
       conversationId,
       content,
     );
+  }
+
+  @Query(() => String, { name: 'cultivateConversation', nullable: true })
+  async cultivateConversation(@Args('conversationId') conversationId: string) {
+    return this.culturalFitBotService.createConversationSummary(conversationId);
   }
 }

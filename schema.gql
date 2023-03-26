@@ -601,6 +601,7 @@ type Query {
   question(where: QuestionWhereUniqueInput!): Question
   interviews(where: InterviewWhereInput, orderBy: [InterviewOrderByWithRelationInput!], cursor: InterviewWhereUniqueInput, take: Int, skip: Int, distinct: [InterviewScalarFieldEnum!]): [Interview!]!
   interview(where: InterviewWhereUniqueInput!): Interview!
+  cultivateConversation(conversationId: String!): String
   conversations(where: ConversationWhereInput, orderBy: [ConversationOrderByWithRelationInput!], cursor: ConversationWhereUniqueInput, take: Int, skip: Int, distinct: [ConversationScalarFieldEnum!]): [Conversation!]!
   conversation(where: ConversationWhereUniqueInput!): Conversation
   messages(where: MessageWhereInput, orderBy: [MessageOrderByWithRelationInput!], cursor: MessageWhereUniqueInput, take: Int, skip: Int, distinct: [MessageScalarFieldEnum!]): [Message!]!
