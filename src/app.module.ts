@@ -37,6 +37,7 @@ import { AppService } from './app.service';
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       playground: false,
+      introspection: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     UsersModule,
