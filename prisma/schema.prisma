@@ -103,6 +103,7 @@ model Conversation {
   question    Question  @relation(fields: [questionId], references: [id])
   messages    Message[]
 
+  @@unique([interviewId, questionId])
   @@index([interviewId, questionId])
   @@index([interviewId])
   @@index([questionId])
