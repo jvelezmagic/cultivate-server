@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './user.service';
-import { UsersResolver } from './user.resolver';
+import { UserService } from './user.service';
+import { UserResolver } from './user.resolver';
 
 @Module({
-  providers: [UsersResolver, UsersService],
+  providers: [UserResolver, UserService],
 })
 export class UsersModule {}

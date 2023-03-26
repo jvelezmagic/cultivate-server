@@ -1,26 +1,26 @@
 import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { UsersService } from './user.service';
+import { UserService } from './user.service';
 
-import { Interview } from 'src/interview/models/interview.model';
-import { Company } from '../company/models/company.model';
-import { User } from './models/user.model';
+import { Company } from 'src/@generated/company';
+import { Interview } from 'src/@generated/interview';
+import { User } from 'src/@generated/user';
 
 @Resolver(() => User)
-export class UsersResolver {
-  constructor(private readonly usersService: UsersService) {}
+export class UserResolver {
+  constructor(private readonly userService: UserService) {}
 
   @Query(() => [User], { name: 'users', nullable: false })
   async users(): Promise<User[]> {
-    return this.usersService.findMany();
+    return this.userService.findMany();
   }
 
   @ResolveField(() => Company, { name: 'company', nullable: true })
   async company(@Parent() user: User): Promise<Company | null> {
-    return this.usersService.company(user.id);
+    return this.userService.company(user.id);
   }
 
   @ResolveField(() => [Interview], { name: 'interviews', nullable: false })
   async interviews(@Parent() user: User): Promise<Interview[]> {
-    return this.usersService.interviews(user.id);
+    return this.userService.interviews(user.id);
   }
 }

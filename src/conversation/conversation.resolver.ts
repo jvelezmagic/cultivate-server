@@ -1,10 +1,10 @@
 import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { ConversationService } from './conversation.service';
 
-import { Interview } from 'src/interview/models/interview.model';
-import { Message } from 'src/message/models/message.model';
-import { Question } from 'src/question/models/question.model';
-import { Conversation } from './models/conversation.model';
+import { Conversation } from 'src/@generated/conversation';
+import { Interview } from 'src/@generated/interview';
+import { Message } from 'src/@generated/message';
+import { Question } from 'src/@generated/question';
 
 @Resolver(() => Conversation)
 export class ConversationResolver {

@@ -2,13 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Interview {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  candidate: User!
-  company: Company!
-  conversations: [Conversation!]!
+type CompanyCountAggregate {
+  id: Int!
+  name: Int!
+  avatarUrl: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type CompanyMinAggregate {
+  id: String
+  name: String
+  avatarUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 """
@@ -16,37 +24,39 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type CompanyMaxAggregate {
+  id: String
+  name: String
+  avatarUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyCount {
+  members: Int!
+  questions: Int!
+  interviews: Int!
+}
+
+type QuestionCount {
+  conversations: Int!
+}
+
 type Question {
   id: ID!
+  companyId: String!
   title: String!
-  goals: [String!]!
+  goals: [String!]
   createdAt: DateTime!
   updatedAt: DateTime!
   company: Company!
-  conversations: [Conversation!]!
-}
-
-type User {
-  id: ID!
-  email: String!
-  avatarUrl: String
-  company: Company
-  interviews: [Interview!]!
-}
-
-type Company {
-  id: ID!
-  name: String!
-  avatarUrl: String
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  members: [User!]!
-  questions: [Question!]!
-  interviews: [Interview!]!
+  conversations: [Conversation!]
+  _count: QuestionCount!
 }
 
 type Message {
   id: ID!
+  conversationId: String!
   role: MessageRole!
   content: String!
   createdAt: DateTime!
@@ -59,13 +69,192 @@ enum MessageRole {
   COMPANY
 }
 
+type ConversationCount {
+  messages: Int!
+}
+
 type Conversation {
   id: ID!
+  interviewId: String!
+  questionId: String!
   createdAt: DateTime!
   updatedAt: DateTime!
-  messages: [Message!]!
-  question: Question!
   interview: Interview!
+  question: Question!
+  messages: [Message!]
+  _count: ConversationCount!
+}
+
+type InterviewCount {
+  conversations: Int!
+}
+
+type Interview {
+  id: ID!
+  candidateId: String!
+  companyId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  candidate: User!
+  company: Company!
+  conversations: [Conversation!]
+  _count: InterviewCount!
+}
+
+type UserCount {
+  interviews: Int!
+}
+
+type User {
+  id: ID!
+  email: String!
+  password: String!
+  avatarUrl: String
+  companyId: String
+  company: Company
+  interviews: [Interview!]
+  _count: UserCount!
+}
+
+type Company {
+  id: ID!
+  name: String!
+  avatarUrl: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  members: [User!]
+  questions: [Question!]
+  interviews: [Interview!]
+  _count: CompanyCount!
+}
+
+type InterviewCountAggregate {
+  id: Int!
+  candidateId: Int!
+  companyId: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type InterviewMinAggregate {
+  id: String
+  candidateId: String
+  companyId: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type InterviewMaxAggregate {
+  id: String
+  candidateId: String
+  companyId: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type QuestionCountAggregate {
+  id: Int!
+  companyId: Int!
+  title: Int!
+  goals: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type QuestionMinAggregate {
+  id: String
+  companyId: String
+  title: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type QuestionMaxAggregate {
+  id: String
+  companyId: String
+  title: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type UserCountAggregate {
+  id: Int!
+  email: Int!
+  password: Int!
+  avatarUrl: Int!
+  companyId: Int!
+  _all: Int!
+}
+
+type UserMinAggregate {
+  id: String
+  email: String
+  password: String
+  avatarUrl: String
+  companyId: String
+}
+
+type UserMaxAggregate {
+  id: String
+  email: String
+  password: String
+  avatarUrl: String
+  companyId: String
+}
+
+type ConversationCountAggregate {
+  id: Int!
+  interviewId: Int!
+  questionId: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type ConversationMinAggregate {
+  id: String
+  interviewId: String
+  questionId: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ConversationMaxAggregate {
+  id: String
+  interviewId: String
+  questionId: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MessageCountAggregate {
+  id: Int!
+  conversationId: Int!
+  role: Int!
+  content: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type MessageMinAggregate {
+  id: String
+  conversationId: String
+  role: MessageRole
+  content: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MessageMaxAggregate {
+  id: String
+  conversationId: String
+  role: MessageRole
+  content: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 type Query {

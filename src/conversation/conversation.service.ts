@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 
-import { Interview } from 'src/interview/models/interview.model';
-import { Message } from 'src/message/models/message.model';
-import { Question } from 'src/question/models/question.model';
-import { Conversation } from './models/conversation.model';
+import { Conversation } from 'src/@generated/conversation';
+import { Interview } from 'src/@generated/interview';
+import { Message } from 'src/@generated/message';
+import { Question } from 'src/@generated/question';
 
 @Injectable()
 export class ConversationService {

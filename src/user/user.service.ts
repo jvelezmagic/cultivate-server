@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 
-import { Interview } from 'src/interview/models/interview.model';
-import { Company } from '../company/models/company.model';
-import { User } from './models/user.model';
+import { Company } from 'src/@generated/company';
+import { Interview } from 'src/@generated/interview';
+import { User } from 'src/@generated/user';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findMany(): Promise<User[]> {

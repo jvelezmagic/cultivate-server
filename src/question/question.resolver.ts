@@ -1,9 +1,9 @@
 import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { QuestionService } from './question.service';
 
-import { Company } from 'src/company/models/company.model';
-import { Conversation } from 'src/conversation/models/conversation.model';
-import { Question } from './models/question.model';
+import { Company } from 'src/@generated/company';
+import { Conversation } from 'src/@generated/conversation';
+import { Question } from 'src/@generated/question';
 
 @Resolver(() => Question)
 export class QuestionResolver {
