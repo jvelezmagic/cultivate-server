@@ -419,6 +419,8 @@ type User {
   id: ID!
   email: String!
   avatarUrl: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
   company: Company
   interviews(where: InterviewWhereInput, orderBy: [InterviewOrderByWithRelationInput!], cursor: InterviewWhereUniqueInput, take: Int, skip: Int, distinct: [InterviewScalarFieldEnum!]): [Interview!]
   _count: UserCount!
@@ -507,6 +509,8 @@ type UserCountAggregate {
   id: Int!
   email: Int!
   avatarUrl: Int!
+  createdAt: Int!
+  updatedAt: Int!
   _all: Int!
 }
 
@@ -514,12 +518,16 @@ type UserMinAggregate {
   id: String
   email: String
   avatarUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 type UserMaxAggregate {
   id: String
   email: String
   avatarUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 type ConversationCountAggregate {
@@ -592,6 +600,8 @@ enum UserScalarFieldEnum {
   password
   avatarUrl
   companyId
+  createdAt
+  updatedAt
 }
 
 input CompanyWhereUniqueInput {

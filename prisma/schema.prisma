@@ -25,6 +25,10 @@ model User {
   avatarUrl  String?     @map("avatar_url")
   /// @HideField({ output: true, input: false })
   companyId  String?     @map("company_id")
+  /// @HideField({ output: false, input: true })
+  createdAt  DateTime    @default(now()) @map("created_at")
+  /// @HideField({ output: false, input: true })
+  updatedAt  DateTime    @updatedAt @map("updated_at")
   company    Company?    @relation(fields: [companyId], references: [id])
   interviews Interview[]
 
