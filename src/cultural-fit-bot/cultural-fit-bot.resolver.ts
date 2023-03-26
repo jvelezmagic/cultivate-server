@@ -8,7 +8,7 @@ export class CulturalFitBotResolver {
   @Mutation(() => String, { name: 'chatWithCultivateBot', nullable: true })
   async chatWithCultivateBot(
     @Args('conversationId') conversationId: string,
-    @Args('content', { nullable: true }) content: string | null,
+    @Args('content') content: string,
   ) {
     return this.culturalFitBotService.chatWithCultivateBot(
       conversationId,

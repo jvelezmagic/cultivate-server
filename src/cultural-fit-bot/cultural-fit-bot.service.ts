@@ -2,12 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
-import {
-  ChatCompletionRequestMessage,
-  Configuration,
-  CreateCompletionRequest,
-  OpenAIApi,
-} from 'openai';
+import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai';
 
 @Injectable()
 export class CulturalFitBotService {
@@ -69,8 +64,6 @@ export class CulturalFitBotService {
       throw new Error('It is system turn to ask the question');
     }
 
-    let whoShouldAnswer = 'assistant';
-
     if (previousMessages.length === 0) {
       const question = await this.prisma.conversation
         .findUnique({
@@ -91,6 +84,18 @@ export class CulturalFitBotService {
           ', ',
         )}`,
       });
+
+      const questionFromBot = `Hi! I'm Cultivate Cultural Fit Bot.\nPlease read the question carefully and think about your answer.\n\n${question.title}`;
+
+      await this.prisma.message.create({
+        data: {
+          role: 'assistant',
+          content: questionFromBot,
+          conversationId: conversationId,
+        },
+      });
+
+      return questionFromBot;
     } else {
       messages.push(
         ...[
@@ -98,62 +103,47 @@ export class CulturalFitBotService {
           { role: 'user' as const, content: userContent },
         ],
       );
-
-      whoShouldAnswer = 'user';
     }
 
+    let responseContent = '';
     try {
       const response = await this.openAIApi.createChatCompletion({
         model: 'gpt-3.5-turbo',
         messages: messages,
       });
 
-      const responseContent = response.data.choices[0].message.content;
+      responseContent = response.data.choices[0].message.content;
 
       if (responseContent.includes(this.STOP_SIGNAL)) {
         return "That's all I have for now. Thank you for your time.";
       }
+    } catch (error) {
+      return null;
+    }
 
-      if (whoShouldAnswer === 'user') {
-        try {
-          await this.prisma.$transaction(
-            async (tx) => {
-              await tx.message.create({
-                data: {
-                  conversationId: conversationId,
-                  role: 'user',
-                  content: userContent,
-                },
-              });
-
-              await tx.message.create({
-                data: {
-                  conversationId: conversationId,
-                  role: 'assistant',
-                  content: responseContent,
-                },
-              });
-            },
-            {
-              isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
-            },
-          );
-        } catch (error) {
-          return null;
-        }
-      } else {
-        try {
-          await this.prisma.message.create({
+    try {
+      await this.prisma.$transaction(
+        async (tx) => {
+          await tx.message.create({
             data: {
-              role: 'assistant',
-              content: responseContent,
               conversationId: conversationId,
+              role: 'user',
+              content: userContent,
             },
           });
-        } catch (error) {
-          return null;
-        }
-      }
+
+          await tx.message.create({
+            data: {
+              conversationId: conversationId,
+              role: 'assistant',
+              content: responseContent,
+            },
+          });
+        },
+        {
+          isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+        },
+      );
 
       return responseContent;
     } catch (error) {
