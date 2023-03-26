@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { PrismaModule } from 'nestjs-prisma';
 
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 import { CompanyModule } from './company/company.module';
@@ -35,6 +36,8 @@ import { AppService } from './app.service';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     UsersModule,
     CompanyModule,
