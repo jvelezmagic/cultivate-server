@@ -36,16 +36,17 @@ model User {
 }
 
 model Company {
-  id         String      @id @default(uuid())
-  name       String
-  avatarUrl  String?     @map("avatar_url")
+  id          String      @id @default(uuid())
+  name        String
+  description String
+  avatarUrl   String?     @map("avatar_url")
   /// @HideField({ output: false, input: true })
-  createdAt  DateTime    @default(now()) @map("created_at")
+  createdAt   DateTime    @default(now()) @map("created_at")
   /// @HideField({ output: false, input: true })
-  updatedAt  DateTime    @updatedAt @map("updated_at")
-  members    User[]
-  questions  Question[]
-  interviews Interview[]
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  members     User[]
+  questions   Question[]
+  interviews  Interview[]
 
   @@map("companies")
 }
