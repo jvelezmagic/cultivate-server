@@ -649,7 +649,7 @@ type Mutation {
   updateInterview(data: InterviewUpdateInput!, where: InterviewWhereUniqueInput!): Interview!
   deleteInterview(where: InterviewWhereUniqueInput!): Interview
   setUpCompleteInterview(candidateId: String!, companyId: String!): Interview!
-  askCulturalBot(conversationId: String!, content: String): String
+  chatWithCultivateBot(conversationId: String!, content: String): String
   createConversation(data: ConversationCreateInput!): Conversation!
   updateConversation(data: ConversationUpdateInput!, where: ConversationWhereUniqueInput!): Conversation!
   deleteConversation(where: ConversationWhereUniqueInput!): Conversation!

@@ -122,7 +122,7 @@ export class InterviewService {
     await Promise.all(
       conversations.map(async ({ id }) => {
         try {
-          await this.cultivateBotService.chatWithCulturalFitBot(id, null);
+          await this.cultivateBotService.chatWithCultivateBot(id, null);
         } catch (e) {}
       }),
     );

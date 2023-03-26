@@ -42,7 +42,7 @@ export class CulturalFitBotService {
     this.openAIApi = new OpenAIApi(configuration);
   }
 
-  async chatWithCulturalFitBot(
+  async chatWithCultivateBot(
     conversationId: string,
     userContent: string | null,
   ) {

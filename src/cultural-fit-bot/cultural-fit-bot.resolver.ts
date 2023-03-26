@@ -5,12 +5,12 @@ import { CulturalFitBotService } from './cultural-fit-bot.service';
 export class CulturalFitBotResolver {
   constructor(private readonly culturalFitBotService: CulturalFitBotService) {}
 
-  @Mutation(() => String, { name: 'askCulturalBot', nullable: true })
-  async askCulturalBot(
+  @Mutation(() => String, { name: 'chatWithCultivateBot', nullable: true })
+  async chatWithCultivateBot(
     @Args('conversationId') conversationId: string,
     @Args('content', { nullable: true }) content: string | null,
   ) {
-    return this.culturalFitBotService.chatWithCulturalFitBot(
+    return this.culturalFitBotService.chatWithCultivateBot(
       conversationId,
       content,
     );
