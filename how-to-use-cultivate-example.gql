@@ -1,0 +1,36 @@
+query CandidatesAndCompanies {
+  candidates: users(where: { companyId: { equals: null } }) {
+    id
+  }
+  companies {
+    id
+  }
+}
+
+mutation SetUpCompleteInterview($candidateId: String!, $companyId: String!) {
+  setUpCompleteInterview(candidateId: $candidateId, companyId: $companyId) {
+    id
+    conversations {
+      id
+      messages {
+        role
+        content
+      }
+    }
+  }
+}
+
+mutation ChatWithCultivateBot($conversationId: String!, $content: String!) {
+  chatWithCultivateBot(conversationId: $conversationId, content: $content)
+}
+
+query ConversationMessages($conversationId: String!) {
+  messages(where: { conversationId: { equals: $conversationId } }) {
+    role
+    content
+  }
+}
+
+query CultivateConversation($conversationId: String!) {
+  cultivateConversation(conversationId: $conversationId)
+}
