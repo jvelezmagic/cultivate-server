@@ -82,6 +82,7 @@ model Interview {
   company       Company        @relation(fields: [companyId], references: [id])
   conversations Conversation[]
 
+  @@unique([candidateId, companyId])
   @@index([candidateId, companyId])
   @@index([companyId])
   @@index([candidateId])
@@ -125,6 +126,6 @@ model Message {
 }
 
 enum MessageRole {
-  CANDIDATE
-  COMPANY
+  user      @map("user")
+  assistant @map("assistant")
 }

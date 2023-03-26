@@ -16,6 +16,7 @@ import { UsersModule } from './user/user.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CulturalFitBotModule } from './cultural-fit-bot/cultural-fit-bot.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { AppService } from './app.service';
     InterviewModule,
     ConversationModule,
     MessageModule,
+    CulturalFitBotModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -35,6 +35,7 @@
     "graphql": "^16.6.0",
     "i": "^0.3.7",
     "nestjs-prisma": "^0.20.0",
+    "openai": "^3.2.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },

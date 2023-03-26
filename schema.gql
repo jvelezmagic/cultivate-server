@@ -254,8 +254,8 @@ input EnumMessageRoleFilter {
 }
 
 enum MessageRole {
-  CANDIDATE
-  COMPANY
+  user
+  assistant
 }
 
 input NestedEnumMessageRoleFilter {
@@ -428,6 +428,12 @@ type User {
 
 input InterviewWhereUniqueInput {
   id: String
+  candidateId_companyId: InterviewCandidateIdCompanyIdCompoundUniqueInput
+}
+
+input InterviewCandidateIdCompanyIdCompoundUniqueInput {
+  candidateId: String!
+  companyId: String!
 }
 
 enum InterviewScalarFieldEnum {
@@ -635,6 +641,7 @@ type Mutation {
   createMessage(data: MessageCreateInput!): Message!
   updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message!
   deleteMessage(where: MessageWhereUniqueInput!): Message!
+  askCulturalBot(conversationId: String!, content: String): String
 }
 
 input UserCreateInput {
